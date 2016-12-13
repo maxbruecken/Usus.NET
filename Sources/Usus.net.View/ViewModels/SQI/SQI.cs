@@ -50,7 +50,7 @@ namespace andrena.Usus.net.View.ViewModels.SQI
             Parameters.Add(_ComplicatedMethods = sqiParameters.Assign("Complicated Methods", 0, (p, v) => p.ComplicatedMethods = v));
             Parameters.Add(_AverageComponentDependency = sqiParameters.Assign("Average Component Dependency", 0.0, (p, v) => p.AverageComponentDependency = v));
             Parameters.Add(_BigClasses = sqiParameters.Assign("Big Classes", 0, (p, v) => p.BigClasses = v));
-            Parameters.Add(_BigMethods = sqiParameters.Assign("Bis Methods", 0, (p, v) => p.BigMethods = v));
+            Parameters.Add(_BigMethods = sqiParameters.Assign("Big Methods", 0, (p, v) => p.BigMethods = v));
             Parameters.Add(_CompilerWarnings = sqiParameters.Assign("Compiler Warnings", 0, (p, v) => p.CompilerWarnings = v));
         }
         #endregion
