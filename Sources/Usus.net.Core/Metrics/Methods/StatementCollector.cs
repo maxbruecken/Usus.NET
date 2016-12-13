@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Cci;
+using Microsoft.Cci.Analysis;
 using Microsoft.Cci.ILToCodeModel;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
@@ -52,7 +53,7 @@ namespace andrena.Usus.net.Core.Metrics.Methods
 
         private bool IsNotBlock(IStatement statement)
         {
-            return !(statement is BasicBlock);
+            return !(statement is IBlockStatement);
         }
 
         private bool HasLocation(IStatement statement)
