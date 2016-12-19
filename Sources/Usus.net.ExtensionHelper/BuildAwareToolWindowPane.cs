@@ -37,8 +37,8 @@ namespace andrena.Usus.net.ExtensionHelper
 
         private void AnalyzeErrorItems(CompilerErrors errors)
         {
-            ErrorList list = MasterObjekt.ToolWindows.ErrorList;
-            for (long index = 1; index <= list.ErrorItems.Count; index++)
+            var list = MasterObjekt.ToolWindows.ErrorList;
+            for (var index = 1; index <= list.ErrorItems.Count; index++)
             {
                 AddUpErrors(errors, list.ErrorItems.Item(index));
             }
