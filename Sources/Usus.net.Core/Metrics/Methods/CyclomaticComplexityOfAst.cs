@@ -16,7 +16,7 @@ namespace andrena.Usus.net.Core.Metrics.Methods
         private static int CalculateCyclomaticComplexity(this IMethodDefinition method, PdbReader pdb, IMetadataHost host)
         {
             var methodBody = method.Decompile(pdb, host);
-            var cyclomaticComplexityCalculator = new CyclomaticComplexityCalculator();
+            var cyclomaticComplexityCalculator = new CyclomaticComplexityCalculator(pdb, host);
             cyclomaticComplexityCalculator.Traverse(methodBody.Statements());
             return cyclomaticComplexityCalculator.Result;
         }

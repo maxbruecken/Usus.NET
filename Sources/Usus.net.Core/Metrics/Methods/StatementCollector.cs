@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Cci;
-using Microsoft.Cci.Analysis;
-using Microsoft.Cci.ILToCodeModel;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {

@@ -197,7 +197,7 @@ namespace Usus.net.Core.IntegrationTests.MethodMetrics
             if (c1) yield return "";
         }
 
-        [ExpectCyclomaticComplexity(1)]
+        [ExpectCyclomaticComplexity(3)]
         public static void MethodWithListComprehensions()
         {
             var result = from i in Enumerable.Range(0, 10)

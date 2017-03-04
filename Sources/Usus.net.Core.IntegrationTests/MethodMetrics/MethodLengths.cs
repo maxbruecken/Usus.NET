@@ -9,14 +9,14 @@ namespace Usus.net.Core.IntegrationTests.MethodMetrics
     {
         public static Object PropertyAutoImplemented
         {
-            [ExpectNumberOfLogicalLines(0)]
+            [ExpectNumberOfLogicalLines(1)]
             [ExpectNumberOfRealLines(0)]
-            [ExpectNumberOfStatements(0)]
+            [ExpectNumberOfStatements(1)]
             get;
 
-            [ExpectNumberOfLogicalLines(0)]
+            [ExpectNumberOfLogicalLines(1)]
             [ExpectNumberOfRealLines(0)]
-            [ExpectNumberOfStatements(0)]
+            [ExpectNumberOfStatements(1)]
             set;
         }
 
@@ -129,7 +129,7 @@ namespace Usus.net.Core.IntegrationTests.MethodMetrics
 
         [ExpectNumberOfLogicalLines(2)]
         [ExpectNumberOfRealLines(4)]
-        [ExpectNumberOfStatements(4)]
+        [ExpectNumberOfStatements(5)]
         public static void MethodWithListComprehensions()
         {
             var result = from i in Enumerable.Range(0, 10)

@@ -1,3 +1,4 @@
+using System;
 using andrena.Usus.net.Core.Verification;
 using System.Collections.Generic;
 
@@ -38,7 +39,7 @@ namespace Usus.net.Core.IntegrationTests.TypeMetrics
         }
 
         [ExpectCumulativeComponentDependency(3)]
-        class ClassWitIteratorDependencies
+        class ClassWithIteratorDependencies
         {
             IEnumerable<ClassNoInterestingDependencies> m()
             {

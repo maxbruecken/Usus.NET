@@ -55,6 +55,7 @@ namespace Usus.net.Core.IntegrationTests.TypeMetrics
         }
 
         [ExpectDirectDependency("System.Exception")]
+        [ExpectDirectDependency("System.Exception")]
         class ClassWithLambda
         {
             public void m()
@@ -64,12 +65,8 @@ namespace Usus.net.Core.IntegrationTests.TypeMetrics
         }
 
         [ExpectDirectDependency("System.Exception")]
-        [ExpectNoDirectDependency("System.NotSupportedException")]
-        [ExpectNoDirectDependency("System.NotImplementedException")]
-        /* •——————————————————————————————————————————————————————————————————————•
-           | Iterators are compiler generated sub classes.                        |
-           | Their types will be recognized by cumulative dependency aggregation. |
-           •——————————————————————————————————————————————————————————————————————• */
+        [ExpectDirectDependency("System.NotSupportedException")]
+        [ExpectDirectDependency("System.NotImplementedException")]
         class ClassWithIterator
         {
             private IEnumerable<Exception> m()
