@@ -1,15 +1,13 @@
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Cci;
+using Mono.Cecil.Cil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {
     internal class OperationLocation
     {
-        public IOperation Operation { get; set; }
-        public OperationCode OperationCode
+        public Instruction Operation { get; set; }
+        public OpCode OperationCode
         {
-            get { return Operation.OperationCode; }
+            get { return Operation.OpCode; }
         }
 
         public IPrimarySourceLocation Location { get; set; }

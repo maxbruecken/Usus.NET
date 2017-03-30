@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using andrena.Usus.net.Core.Reports;
-using Microsoft.Cci;
+using Mono.Cecil.Pdb;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {

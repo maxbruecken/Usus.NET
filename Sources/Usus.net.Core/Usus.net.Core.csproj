@@ -44,56 +44,6 @@
       <HintPath>..\packages\MathNet.Numerics.Signed.3.13.1\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Cci.Analysis.ControlAndDataFlowGraph">
-      <HintPath>..\Libs\Microsoft.Cci.Analysis.ControlAndDataFlowGraph.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.CodeModel, Version=1.0.7.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Microsoft.Cci.CodeModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.CodeModelToIL">
-      <HintPath>..\Libs\Microsoft.Cci.CodeModelToIL.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.ILGenerator">
-      <HintPath>..\Libs\Microsoft.Cci.ILGenerator.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.MetadataHelper, Version=1.0.7.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Microsoft.Cci.MetadataHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.MetadataModel, Version=1.0.7.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Microsoft.Cci.MetadataModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.MutableCodeModel, Version=1.0.7.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Microsoft.Cci.MutableCodeModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.MutableMetadataModel, Version=1.0.7.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Microsoft.Cci.MutableMetadataModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.NewILToCodeModel">
-      <HintPath>..\Libs\Microsoft.Cci.NewILToCodeModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.PdbReader, Version=1.0.7.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Microsoft.Cci.PdbReader.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.PdbWriter">
-      <HintPath>..\Libs\Microsoft.Cci.PdbWriter.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.PeReader, Version=1.0.7.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Microsoft.Cci.PeReader.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.PeWriter">
-      <HintPath>..\Libs\Microsoft.Cci.PeWriter.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Cci.SourceModel, Version=1.0.7.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Microsoft.Cci.SourceModel.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll</HintPath>
       <Private>True</Private>

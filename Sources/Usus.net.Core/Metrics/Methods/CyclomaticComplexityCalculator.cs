@@ -1,5 +1,6 @@
 using andrena.Usus.net.Core.AssemblyNavigation;
 using Microsoft.Cci;
+using Mono.Cecil.Pdb;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
@@ -70,18 +71,6 @@ namespace andrena.Usus.net.Core.Metrics.Methods
             if (!switchCase.IsDefault)
                 Result++;
             base.TraverseChildren(switchCase);
-        }
-
-        public override void TraverseChildren(IYieldReturnStatement addition)
-        {
-            base.TraverseChildren(addition);
-        }
-
-        public override void TraverseChildren(ICreateObjectInstance createObjectInstance)
-        {
-            var methodBody = createObjectInstance.MethodToCall.ResolvedMethod.Decompile(_pdb, _host);
-            //Traverse(methodBody.Statements());
-            base.TraverseChildren(createObjectInstance);
         }
     }
 }

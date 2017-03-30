@@ -1,17 +1,17 @@
-using System;
-using Microsoft.Cci;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class NumberOfIlOperations
     {
-        public static int Of(IMethodDefinition method)
+        public static int Of(MethodDefinition method)
         {
             int num = 0;
             bool flag = false;
-            foreach (var operation in method.Body.Operations)
+            foreach (var operation in method.Body.Instructions)
             {
-                if (operation.OperationCode != OperationCode.Ret)
+                if (operation.OpCode.Code != Code.Ret)
                 {
                     flag = true;
                 }

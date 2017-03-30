@@ -2,6 +2,8 @@
 using System.Linq;
 using andrena.Usus.net.Core.Reports;
 using Microsoft.Cci;
+using Mono.Cecil;
+using Mono.Cecil.Pdb;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {
@@ -20,7 +22,7 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
                    select TypeAndMethods(pdb, host, type);
         }
 
-        private TypeMetricsWithMethodMetrics TypeAndMethods(PdbReader pdb, IMetadataHost host, INamedTypeDefinition type)
+        private TypeMetricsWithMethodMetrics TypeAndMethods(PdbReader pdb, IMetadataHost host, TypeDefinition type)
         {
             var typeAndMethods = new TypeMetricsWithMethodMetrics();
             typeAndMethods.AddMethodReports(AnalyzeMethods(type, pdb, host));
@@ -33,13 +35,13 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
             return typeAndMethods;
         }
 
-        private IEnumerable<MethodMetricsReport> AnalyzeMethods(INamedTypeDefinition type, PdbReader pdb, IMetadataHost host)
+        private IEnumerable<MethodMetricsReport> AnalyzeMethods(TypeDefinition type, PdbReader pdb, IMetadataHost host)
         {
             return from method in type.Methods
                    select AnalyzeMethod(method, pdb, host);
         }
 
-        protected abstract TypeMetricsReport AnalyzeType(INamedTypeDefinition type, PdbReader pdb, IEnumerable<MethodMetricsReport> methods);
-        protected abstract MethodMetricsReport AnalyzeMethod(IMethodDefinition method, PdbReader pdb, IMetadataHost host);
+        protected abstract TypeMetricsReport AnalyzeType(TypeDefinition type, PdbReader pdb, IEnumerable<MethodMetricsReport> methods);
+        protected abstract MethodMetricsReport AnalyzeMethod(MethodDefinition method, PdbReader pdb, IMetadataHost host);
     }
 }

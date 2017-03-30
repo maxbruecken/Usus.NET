@@ -1,18 +1,18 @@
-﻿using Microsoft.Cci;
+﻿using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {
     internal static class TypeExtensions
     {
-        public static string FullName(this ITypeDefinition type)
+        public static string FullName(this TypeDefinition type)
         {
             string typeName = type.IsGeneric ? type.InstanceType.ToString() : type.ToString();
             return typeName.Replace(", ", ",");
         }
 
-        public static string Name(this INamedTypeDefinition type)
+        public static string Name(this TypeDefinition type)
         {
-            return type.Name.ToString();
+            return type.Name;
         }
     }
 }

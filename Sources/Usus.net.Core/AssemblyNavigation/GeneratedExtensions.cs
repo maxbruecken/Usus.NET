@@ -1,5 +1,4 @@
-using System.Linq;
-using Microsoft.Cci;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {

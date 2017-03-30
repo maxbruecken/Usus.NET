@@ -1,52 +1,53 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Cci;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class CyclomaticComplexityOfIl
     {
-        public static int Of(IMethodDefinition method)
+        public static int Of(MethodDefinition method)
         {
             int num = 1;
-            num += method.Body.OperationExceptionInformation.Count(e => e.HandlerKind == HandlerKind.Catch);
+            num += method.Body.ExceptionHandlers.Count(e => e.HandlerType == ExceptionHandlerType.Catch);
             
-            foreach (var operation in method.Body.Operations)
+            foreach (var operation in method.Body.Instructions)
             {
-                switch (operation.OperationCode)
+                switch (operation.OpCode.Code)
                 {
-                    case OperationCode.Brfalse_S:
-                    case OperationCode.Brtrue_S:
-                    case OperationCode.Beq_S:
-                    case OperationCode.Bge_S:
-                    case OperationCode.Bgt_S:
-                    case OperationCode.Ble_S:
-                    case OperationCode.Blt_S:
-                    case OperationCode.Bne_Un_S:
-                    case OperationCode.Bge_Un_S:
-                    case OperationCode.Bgt_Un_S:
-                    case OperationCode.Ble_Un_S:
-                    case OperationCode.Blt_Un_S:
-                    case OperationCode.Brfalse:
-                    case OperationCode.Brtrue:
-                    case OperationCode.Beq:
-                    case OperationCode.Bge:
-                    case OperationCode.Bgt:
-                    case OperationCode.Ble:
-                    case OperationCode.Blt:
-                    case OperationCode.Bne_Un:
-                    case OperationCode.Bge_Un:
-                    case OperationCode.Bgt_Un:
-                    case OperationCode.Ble_Un:
-                    case OperationCode.Blt_Un:
-                    case (OperationCode)0xfefc:
-                    case (OperationCode)0xfefe:
+                    case Code.Brfalse_S:
+                    case Code.Brtrue_S:
+                    case Code.Beq_S:
+                    case Code.Bge_S:
+                    case Code.Bgt_S:
+                    case Code.Ble_S:
+                    case Code.Blt_S:
+                    case Code.Bne_Un_S:
+                    case Code.Bge_Un_S:
+                    case Code.Bgt_Un_S:
+                    case Code.Ble_Un_S:
+                    case Code.Blt_Un_S:
+                    case Code.Brfalse:
+                    case Code.Brtrue:
+                    case Code.Beq:
+                    case Code.Bge:
+                    case Code.Bgt:
+                    case Code.Ble:
+                    case Code.Blt:
+                    case Code.Bne_Un:
+                    case Code.Bge_Un:
+                    case Code.Bgt_Un:
+                    case Code.Ble_Un:
+                    case Code.Blt_Un:
+                    case (Code)0xfefc:
+                    case (Code)0xfefe:
                         num++;
                         break;
 
-                    case OperationCode.Switch:
+                    case Code.Switch:
                         {
-                            IEnumerable<int> enumerable = (IEnumerable<int>)operation.Value;
+                            IEnumerable<int> enumerable = (IEnumerable<int>)operation.Operand;
                             HashSet<int> set = new HashSet<int>();
                             foreach (int num2 in enumerable)
                             {

@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using andrena.Usus.net.Core.Helper;
-using Microsoft.Cci;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {
     internal static class NamespaceExtensions
     {
-        public static IEnumerable<string> Namespaces(this INamedTypeDefinition type)
+        public static IEnumerable<string> Namespaces(this TypeDefinition type)
         {
             return AllNamespaces(type).ToList(n => n);
         }
 
-        private static IEnumerable<string> AllNamespaces(this ITypeDefinition type)
+        private static IEnumerable<string> AllNamespaces(this TypeDefinition type)
         {
             INestedTypeDefinition nestedType = type as INestedTypeDefinition;
             if (nestedType != null)

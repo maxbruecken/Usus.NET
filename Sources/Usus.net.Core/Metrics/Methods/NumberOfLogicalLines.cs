@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
-using Microsoft.Cci;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
+using Mono.Cecil.Pdb;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class NumberOfLogicalLines
     {
-        public static int Of(IMethodDefinition method, PdbReader pdb)
+        public static int Of(MethodDefinition method, PdbReader pdb)
         {
             if (pdb != null)
             {
@@ -25,11 +27,11 @@ namespace andrena.Usus.net.Core.Metrics.Methods
                    select l.Location.StartLine;
         }
 
-        private static bool IsOpCodeOfInterest(this OperationCode opCode)
+        private static bool IsOpCodeOfInterest(this OpCode opCode)
         {
-            return opCode != OperationCode.Nop
-                && opCode != OperationCode.Leave_S
-                && opCode != OperationCode.Ret;
+            return opCode.Code != Code.Nop
+                && opCode.Code != Code.Leave_S
+                && opCode.Code != Code.Ret;
         }
     }
 }

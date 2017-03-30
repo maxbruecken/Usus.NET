@@ -1,22 +1,23 @@
 ﻿using andrena.Usus.net.Core.AssemblyNavigation;
-using Microsoft.Cci;
+using Mono.Cecil;
+using Mono.Cecil.Pdb;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class CyclomaticComplexityOfAst
     {
-        public static int Of(IMethodDefinition method, PdbReader pdb, IMetadataHost host)
+        public static int Of(MethodDefinition method, PdbReader pdb)
         {
             if (method.HasOperations())
-                return method.CalculateCyclomaticComplexity(pdb, host);
+                return method.CalculateCyclomaticComplexity(pdb);
             else
                 return 0;
         }
 
-        private static int CalculateCyclomaticComplexity(this IMethodDefinition method, PdbReader pdb, IMetadataHost host)
+        private static int CalculateCyclomaticComplexity(this MethodDefinition method, PdbReader pdb)
         {
-            var methodBody = method.Decompile(pdb, host);
-            var cyclomaticComplexityCalculator = new CyclomaticComplexityCalculator(pdb, host);
+            var methodBody = method.Decompile();
+            var cyclomaticComplexityCalculator = new CyclomaticComplexityCalculator(pdb, null);
             cyclomaticComplexityCalculator.Traverse(methodBody.Statements());
             return cyclomaticComplexityCalculator.Result;
         }
