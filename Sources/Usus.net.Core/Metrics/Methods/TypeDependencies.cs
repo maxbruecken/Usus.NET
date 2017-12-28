@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Cci;
+using ICSharpCode.Decompiler.CSharp;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class TypeDependencies
     {
-        public static IEnumerable<string> Of(IMethodDefinition method)
+        public static IEnumerable<string> Of(MethodDefinition method, CSharpDecompiler decompiler)
         {
             var typesOfSignature = TypeDependenciesOfSignature.Of(method).ToList();
             var typesOfVariables = TypeDependenciesOfVariables.Of(method).ToList();

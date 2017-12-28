@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
-using Microsoft.Cci;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class TypeDependenciesOfSignature
     {
-        public static IEnumerable<string> Of(IMethodDefinition method)
+        public static IEnumerable<string> Of(MethodDefinition method)
         {
             return Enumerable.Empty<string>()
                 .Union(method.ReturnTypes())
@@ -16,21 +16,21 @@ namespace andrena.Usus.net.Core.Metrics.Methods
                 .ToList();
         }
 
-        private static IEnumerable<string> ReturnTypes(this IMethodDefinition method)
+        private static IEnumerable<string> ReturnTypes(this MethodDefinition method)
         {
-            return from t in method.Type.GetAllRealTypeReferences()
+            return from t in method.ReturnType.GetAllRealTypeReferences()
                    select t.ToString();
         }
 
-        private static IEnumerable<string> ParameterTypes(this IMethodDefinition method)
+        private static IEnumerable<string> ParameterTypes(this MethodDefinition method)
         {
             return from p in method.Parameters
-                   from t in p.Type.GetAllRealTypeReferences()
-                   where !(t is IGenericMethodParameter)
+                   from t in p.ParameterType.GetAllRealTypeReferences()
+                   where !t.IsGenericParameter
                    select t.ToString();
         }
 
-        private static IEnumerable<string> TypesOfGenericsConstraints(this IMethodDefinition method)
+        private static IEnumerable<string> TypesOfGenericsConstraints(this MethodDefinition method)
         {
             return from g in method.GenericParameters
                    from c in g.Constraints

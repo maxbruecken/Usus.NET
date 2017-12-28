@@ -3,19 +3,21 @@ using andrena.Usus.net.Core.AssemblyNavigation;
 using andrena.Usus.net.Core.Metrics.Methods;
 using andrena.Usus.net.Core.Metrics.Types;
 using andrena.Usus.net.Core.Reports;
-using Microsoft.Cci;
+using ICSharpCode.Decompiler.CSharp;
+using Mono.Cecil;
+using TypeVisitor = andrena.Usus.net.Core.AssemblyNavigation.TypeVisitor;
 
 namespace andrena.Usus.net.Core.Metrics
 {
     internal class MetricsCollector : TypeVisitor
     {
-        protected override TypeMetricsReport AnalyzeType(INamedTypeDefinition type, PdbReader pdb, IEnumerable<MethodMetricsReport> methods)
+        protected override TypeMetricsReport AnalyzeType(TypeDefinition type, IEnumerable<MethodMetricsReport> methods, CSharpDecompiler decompiler)
         {
             return new TypeMetricsReport
             {
-                Name = type.Name(),
-                FullName = type.FullName(),
-                SourceLocation = SourceCodeLocating.OfType(type, pdb),
+                Name = type.Name,
+                FullName = type.FullName,
+                SourceLocation = SourceCodeLocating.OfType(type, decompiler),
                 Namespaces = type.Namespaces(),
                 CompilerGenerated = type.IsGeneratedCode(),
                 NumberOfFields = NumberOfFields.Of(type),
@@ -25,21 +27,21 @@ namespace andrena.Usus.net.Core.Metrics
             };
         }
 
-        protected override MethodMetricsReport AnalyzeMethod(IMethodDefinition method, PdbReader pdb, IMetadataHost host)
+        protected override MethodMetricsReport AnalyzeMethod(MethodDefinition method, CSharpDecompiler decompiler)
         {
             return new MethodMetricsReport
             {
-                Name = method.Name(),
+                Name = method.Name,
                 Signature = method.Signature(),
                 CompilerGenerated = method.IsGeneratedCode(),
                 OnlyDeclaration = method.IsOnlyDeclaration(),
                 DefaultConstructor = method.IsDefaultCtor(),
-                SourceLocation = SourceCodeLocating.OfMethod(method, pdb),
-                CyclomaticComplexity = CyclomaticComplexityOfAst.Of(method, pdb, host),
-                NumberOfStatements = NumberOfStatements.Of(method, pdb, host),
-                NumberOfRealLines = NumberOfRealLines.Of(method, pdb),
-                NumberOfLogicalLines = NumberOfLogicalLines.Of(method, pdb),
-                TypeDependencies = TypeDependencies.Of(method)
+                SourceLocation = SourceCodeLocating.OfMethod(method, decompiler),
+                CyclomaticComplexity = CyclomaticComplexityOfAst.Of(method, decompiler),
+                NumberOfStatements = NumberOfStatements.Of(method, decompiler),
+                NumberOfRealLines = NumberOfRealLines.Of(method, decompiler),
+                NumberOfLogicalLines = NumberOfLogicalLines.Of(method, decompiler),
+                TypeDependencies = TypeDependencies.Of(method, decompiler)
             };
         }
     }

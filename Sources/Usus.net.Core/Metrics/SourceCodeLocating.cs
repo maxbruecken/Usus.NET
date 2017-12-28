@@ -1,47 +1,49 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using andrena.Usus.net.Core.Reports;
-using Microsoft.Cci;
+using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.CSharp.Syntax;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.Metrics
 {
     internal static class SourceCodeLocating
     {
-        public static SourceCodeLocation OfMethod(this IMethodDefinition method, PdbReader pdb)
+        public static SourceCodeLocation OfMethod(MethodDefinition method, CSharpDecompiler decompiler)
         {
-            return Of(method, pdb);
+            return Of(method, decompiler);
         }
 
-        public static SourceCodeLocation OfType(this INamedTypeDefinition type, PdbReader pdb)
+        public static SourceCodeLocation OfType(TypeDefinition type, CSharpDecompiler decompiler)
         {
             return SourceCodeLocation.None;
         }
 
-        private static SourceCodeLocation Of(this IObjectWithLocations locatable, PdbReader pdb)
+        private static SourceCodeLocation Of(this IMemberDefinition locatable, CSharpDecompiler decompiler)
         {
-            IPrimarySourceLocation location = locatable.GetValidLocation(pdb);
-            return location != null ? location.ToSourceCodeLocation() : SourceCodeLocation.None;
+            var location = locatable.GetValidLocation(decompiler);
+            return !location.IsEmpty ? locatable.ToSourceCodeLocation(decompiler) : SourceCodeLocation.None;
         }
 
-        private static SourceCodeLocation ToSourceCodeLocation(this IPrimarySourceLocation location)
+        private static SourceCodeLocation ToSourceCodeLocation(this IMemberDefinition locatable, CSharpDecompiler decompiler)
         {
             return new SourceCodeLocation
             {
-                Filename = location.Document.Location,
-                Line = location.StartLine
+                Filename = decompiler.Decompile(locatable).FileName,
+                Line = locatable.GetValidLocation(decompiler).Line
             };
         }
 
-        private static IPrimarySourceLocation GetValidLocation(this IObjectWithLocations locatable, PdbReader pdb)
+        private static TextLocation GetValidLocation(this IMemberDefinition locatable, CSharpDecompiler decompiler)
         {
-            return pdb == null ? null : locatable.GetValidLocations(pdb).FirstOrDefault();
+            return decompiler == null ? TextLocation.Empty : locatable.GetValidLocations(decompiler).FirstOrDefault();
         }
 
-        private static IEnumerable<IPrimarySourceLocation> GetValidLocations(this IObjectWithLocations locatable, PdbReader pdb)
+        private static IEnumerable<TextLocation> GetValidLocations(this IMemberDefinition locatable, CSharpDecompiler decompiler)
         {
-            return from l in pdb.GetPrimarySourceLocationsFor(locatable.Locations)
-                   where l.Length != 0
-                   select l;
+            return from c in decompiler.Decompile(locatable).Children
+                   where c.HasChildren
+                   select c.StartLocation;
         }
     }
 }

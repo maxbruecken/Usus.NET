@@ -13,36 +13,33 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
 
         private static IEnumerable<string> AllNamespaces(this TypeDefinition type)
         {
-            INestedTypeDefinition nestedType = type as INestedTypeDefinition;
-            if (nestedType != null)
-                return nestedType.AllNamespaces();
+            if (type.IsNested)
+                return type.AllNamespacesFromNestedType();
 
-            INamespaceTypeReference namespaceType = type as INamespaceTypeReference;
-            if (namespaceType != null)
-                return namespaceType.AllNamespaces();
+            return new[] {type.Namespace};
 
             return "".Return();
         }
 
-        private static IEnumerable<string> AllNamespaces(this INestedTypeDefinition nestedType)
+        private static IEnumerable<string> AllNamespacesFromNestedType(this TypeDefinition nestedType)
         {
-            return nestedType.ContainingType.ResolvedType.AllNamespaces();
+            return new [] {nestedType.Namespace}; // ToDo mb
         }
 
-        private static IEnumerable<string> AllNamespaces(this INamespaceTypeReference namespaceType)
-        {
-            INestedUnitNamespace nestedNamespace = namespaceType.ContainingUnitNamespace as INestedUnitNamespace;
-            return nestedNamespace.AllNamespaces();
-        }
+        //private static IEnumerable<string> AllNamespaces(this INamespaceTypeReference namespaceType)
+        //{
+        //    INestedUnitNamespace nestedNamespace = namespaceType.ContainingUnitNamespace as INestedUnitNamespace;
+        //    return nestedNamespace.AllNamespaces();
+        //}
 
-        private static IEnumerable<string> AllNamespaces(this INestedUnitNamespace nestedNamespace)
-        {
-            if (nestedNamespace != null)
-            {
-                yield return nestedNamespace.ToString();
-                foreach (var ns in AllNamespaces(nestedNamespace.ContainingUnitNamespace as INestedUnitNamespace))
-                    yield return ns;
-            }
-        }
+        //private static IEnumerable<string> AllNamespaces(this INestedUnitNamespace nestedNamespace)
+        //{
+        //    if (nestedNamespace != null)
+        //    {
+        //        yield return nestedNamespace.ToString();
+        //        foreach (var ns in AllNamespaces(nestedNamespace.ContainingUnitNamespace as INestedUnitNamespace))
+        //            yield return ns;
+        //    }
+        //}
     }
 }

@@ -3,13 +3,14 @@ using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
 using andrena.Usus.net.Core.Helper;
 using andrena.Usus.net.Core.Reports;
-using Microsoft.Cci;
+using Mono.Cecil;
+using TypeReference = Mono.Cecil.TypeReference;
 
 namespace andrena.Usus.net.Core.Metrics.Types
 {
     internal static class DirectDependencies
     {
-        public static IEnumerable<string> Of(INamedTypeDefinition type, IEnumerable<MethodMetricsReport> methods)
+        public static IEnumerable<string> Of(TypeDefinition type, IEnumerable<MethodMetricsReport> methods)
         {
             var typesOfMethods = GetMethodTypes(methods).ToList();
             var typesOfFields = GetFieldTypes(type.Fields).ToList();
@@ -17,7 +18,7 @@ namespace andrena.Usus.net.Core.Metrics.Types
             var typesOfGenerics = GetGenericConstraints(type).ToList();
 
             return Enumerable.Empty<string>()
-                .Union(type.FullName().Return())
+                .Union(type.FullName.Return())
                 .Union(typesOfMethods)
                 .Union(typesOfFields)
                 .Union(typesOfAncestors)
@@ -32,21 +33,26 @@ namespace andrena.Usus.net.Core.Metrics.Types
                    select td;
         }
 
-        private static IEnumerable<string> GetFieldTypes(IEnumerable<IFieldDefinition> fields)
+        private static IEnumerable<string> GetFieldTypes(IEnumerable<FieldDefinition> fields)
         {
             return from f in fields
-                   from t in f.Type.GetAllRealTypeReferences()
+                   from t in f.FieldType.GetAllRealTypeReferences()
                    select t.ToString();
         }
 
-        private static IEnumerable<string> GetAncestorTypes(INamedTypeDefinition type)
+        private static IEnumerable<string> GetAncestorTypes(TypeDefinition type)
         {
-            return from c in type.BaseClasses.Concat(type.Interfaces)
+            return from c in type.BaseClasses().Concat(type.Interfaces.Select(i => i.InterfaceType))
                    from t in c.GetAllRealTypeReferences()
                    select t.ToString();
         }
 
-        private static IEnumerable<string> GetGenericConstraints(INamedTypeDefinition type)
+        private static IEnumerable<TypeReference> BaseClasses(this TypeDefinition type)
+        {
+            return new[] {type.BaseType}; // ToDo mb
+        }
+
+        private static IEnumerable<string> GetGenericConstraints(TypeDefinition type)
         {
             return from g in type.GenericParameters
                    from c in g.Constraints

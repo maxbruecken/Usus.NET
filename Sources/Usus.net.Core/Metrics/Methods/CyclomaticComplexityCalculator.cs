@@ -1,76 +1,82 @@
-using andrena.Usus.net.Core.AssemblyNavigation;
-using Microsoft.Cci;
-using Mono.Cecil.Pdb;
+using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.CSharp.Syntax;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
-    internal class CyclomaticComplexityCalculator : CodeTraverser
+    internal class CyclomaticComplexityCalculator : AstVisitorBase
     {
-        private readonly PdbReader _pdb;
-        private readonly IMetadataHost _host;
+        private readonly CSharpDecompiler _decompiler;
 
         public int Result { get; private set; }
 
-        public CyclomaticComplexityCalculator(PdbReader pdb, IMetadataHost host)
+        public CyclomaticComplexityCalculator(CSharpDecompiler decompiler)
         {
-            _pdb = pdb;
-            _host = host;
+            _decompiler = decompiler;
             Result = 1;
         }
 
-        public override void TraverseChildren(IBitwiseAnd bitwiseAnd)
+        public void Calculate(MethodDefinition method)
         {
-            Result++;
-            base.TraverseChildren(bitwiseAnd);
+            _decompiler.Decompile(method).AcceptVisitor(this);
         }
 
-        public override void TraverseChildren(IBitwiseOr bitwiseOr)
+        public override void VisitIfElseStatement(IfElseStatement ifElseStatement)
         {
             Result++;
-            base.TraverseChildren(bitwiseOr);
+            VisitStatementAndChildren(ifElseStatement);
         }
 
-        public override void TraverseChildren(IConditional conditional)
+        public override void VisitConditionalExpression(ConditionalExpression conditionalExpression)
         {
             Result++;
-            base.TraverseChildren(conditional);
+            VisitStatementAndChildren(conditionalExpression);
         }
 
-        public override void TraverseChildren(IConditionalStatement conditionalStatement)
+        public override void VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression)
         {
-            Result++;
-            base.TraverseChildren(conditionalStatement);
-        }
-
-        public override void TraverseChildren(IWhileDoStatement whileDoStatement)
-        {
-            Result++;
-            base.TraverseChildren(whileDoStatement);
-        }
-
-        public override void TraverseChildren(IForStatement forStatement)
-        {
-            Result++;
-            base.TraverseChildren(forStatement);
-        }
-
-        public override void TraverseChildren(IForEachStatement forEachStatement)
-        {
-            Result++;
-            base.TraverseChildren(forEachStatement);
-        }
-
-        public override void TraverseChildren(ICatchClause catchClause)
-        {
-            Result++;
-            base.TraverseChildren(catchClause);
-        }
-
-        public override void TraverseChildren(ISwitchCase switchCase)
-        {
-            if (!switchCase.IsDefault)
+            if (binaryOperatorExpression.Operator == BinaryOperatorType.BitwiseAnd || binaryOperatorExpression.Operator == BinaryOperatorType.BitwiseOr)
                 Result++;
-            base.TraverseChildren(switchCase);
+            if (binaryOperatorExpression.Operator == BinaryOperatorType.ConditionalAnd || binaryOperatorExpression.Operator == BinaryOperatorType.ConditionalOr)
+                Result++;
+            VisitStatementAndChildren(binaryOperatorExpression);
+        }
+
+        public override void VisitWhileStatement(WhileStatement whileStatement)
+        {
+            Result++;
+            VisitStatementAndChildren(whileStatement);
+        }
+
+        public override void VisitDoWhileStatement(DoWhileStatement doWhileStatement)
+        {
+            Result++;
+            VisitStatementAndChildren(doWhileStatement);
+        }
+
+        public override void VisitForStatement(ForStatement forStatement)
+        {
+            Result++;
+            VisitStatementAndChildren(forStatement);
+        }
+
+        public override void VisitForeachStatement(ForeachStatement foreachStatement)
+        {
+            Result++;
+            VisitStatementAndChildren(foreachStatement);
+        }
+
+        public override void VisitCatchClause(CatchClause catchClause)
+        {
+            Result++;
+            VisitStatementAndChildren(catchClause);
+        }
+
+        public override void VisitCaseLabel(CaseLabel caseLabel)
+        {
+            if (!caseLabel.Expression.IsNull)
+                Result++;
+            VisitStatementAndChildren(caseLabel);
         }
     }
 }

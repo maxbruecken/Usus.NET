@@ -1,73 +1,77 @@
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Cci;
+using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.CSharp.Syntax;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
-    internal class StatementCollector : CodeTraverser
+    internal class StatementCollector : AstVisitorBase
     {
-        bool requireLocations;
-        List<IStatement> statements;
+        private readonly CSharpDecompiler _decompiler;
+        private readonly bool _requireLocations;
+        private readonly List<AstNode> _statements;
 
-        public int ResultCount
+        public int ResultCount => _statements.Count;
+
+        public StatementCollector(CSharpDecompiler decompiler)
         {
-            get { return statements.Count; }
+            _decompiler = decompiler;
+            _statements = new List<AstNode>();
+            _requireLocations = decompiler != null;
         }
 
-        public StatementCollector(PdbReader pdb)
+        public void Collect(MethodDefinition method)
         {
-            statements = new List<IStatement>();
-            requireLocations = pdb != null;
+            _decompiler?.Decompile(method).AcceptVisitor(this);
         }
 
-        public override void TraverseChildren(IStatement statement)
+        protected override void VisitAstNode(AstNode node)
         {
-            if (statement is IEmptyStatement) return;
-            if (statement is IReturnStatement && (statement as IReturnStatement).Expression == null) return;
+            if (node is EmptyStatement) return;
+            if (node is ReturnStatement && (node as ReturnStatement).Expression == null) return;
 
-            RememberStatement(statement);
-            base.TraverseChildren(statement);
+            RememberStatement(node);
         }
 
-        private void RememberStatement(IStatement statement)
+        private void RememberStatement(AstNode node)
         {
-            if (requireLocations)
-                RememberStatementWithLocation(statement);
+            if (_requireLocations)
+                RememberStatementWithLocation(node);
             else
-                RememberStatementWithoutLocation(statement);
+                RememberStatementWithoutLocation(node);
         }
 
-        private void RememberStatementWithLocation(IStatement statement)
+        private void RememberStatementWithLocation(AstNode node)
         {
-            if (HasLocation(statement) || IsConditional(statement) || IsDeclaration(statement))
-                statements.Add(statement);
+            if (HasLocation(node) || IsConditional(node) || IsDeclaration(node))
+                _statements.Add(node);
         }
 
-        private void RememberStatementWithoutLocation(IStatement statement)
+        private void RememberStatementWithoutLocation(AstNode node)
         {
-            if (IsNotBlock(statement))
-                statements.Add(statement);
+            if (IsNotBlock(node))
+                _statements.Add(node);
         }
 
-        private bool IsNotBlock(IStatement statement)
+        private bool IsNotBlock(AstNode node)
         {
-            return !(statement is IBlockStatement);
+            return !(node is BlockStatement);
         }
 
-        private bool HasLocation(IStatement statement)
+        private bool HasLocation(AstNode node)
         {
-            return statement.Locations.Any();
+            return !node.StartLocation.IsEmpty;
         }
 
-        private bool IsConditional(IStatement statement)
+        private bool IsConditional(AstNode node)
         {
-            return statement is IConditionalStatement;
+            return node is ConditionalExpression;
         }
 
-        private bool IsDeclaration(IStatement statement)
+        private bool IsDeclaration(AstNode node)
         {
-            var declaration = statement as ILocalDeclarationStatement;
-            return declaration != null && declaration.InitialValue != null;
+            var declaration = node as VariableInitializer;
+            return declaration?.Initializer != null;
         }
     }
 }

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.CSharp.Syntax;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using Mono.Cecil.Pdb;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {
@@ -31,7 +32,7 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
 
         public static bool IsDefaultCtor(this MethodDefinition method)
         {
-            return method.ToString().EndsWith("..ctor()");
+            return method.Name.EndsWith("..ctor()");
         }
 
         public static IEnumerable<Instruction> Operations(this MethodDefinition method,
@@ -52,11 +53,16 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
                    select rt.ToString();
         }
 
-        public static IEnumerable<OperationLocation> LocatedOperations(this MethodDefinition method, PdbReader pdb)
+        public static IEnumerable<OperationLocation> LocatedOperations(this MethodDefinition method, CSharpDecompiler decompiler)
         {
             return (from o in method.Body.Instructions
-                    from l in pdb.GetPrimarySourceLocationsFor(o.Location)
+                    from l in o.GetLocations(decompiler)
                     select new OperationLocation { Operation = o, Location = l }).ToList();
+        }
+
+        private static IEnumerable<TextLocation> GetLocations(this Instruction instruction, CSharpDecompiler decompiler)
+        {
+            return new [] {TextLocation.Empty}; // ToDo mb
         }
 
         public static MethodBody Decompile(this MethodDefinition method)
@@ -64,9 +70,9 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
             return new MethodBody(method);
         }
 
-        public static IEnumerable<IStatement> Statements(this MethodBody methodBody)
+        public static IEnumerable<Instruction> Statements(this MethodBody methodBody)
         {
-            return methodBody.Scope..Block.Statements;
+            return methodBody.Instructions;
         }
     }
 }

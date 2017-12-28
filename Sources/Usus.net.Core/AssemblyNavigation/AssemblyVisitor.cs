@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using andrena.Usus.net.Core.Reports;
-using Mono.Cecil.Pdb;
+using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.CSharp;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {
@@ -11,47 +13,58 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
         public void Analyze(string assemblyPath)
         {
             Report = new MetricsReport();
-            using (var host = new PeReader.DefaultHost())
-                TryToAnalyzeInHost(assemblyPath, host);
+            var moduleDefinition = ModuleDefinition.ReadModule(assemblyPath);
+            var decompiler = new CSharpDecompiler(assemblyPath, new DecompilerSettings
+            {
+                AnonymousMethods = true,
+                AnonymousTypes = true,
+                AsyncAwait = true,
+                AlwaysUseBraces = true,
+                AutomaticEvents = true,
+                AutomaticProperties = true,
+                ExpressionTrees = true,
+                ForEachStatement = true,
+                ObjectOrCollectionInitializers = true
+            });
+            TryToAnalyze(assemblyPath, moduleDefinition, decompiler);
         }
 
-        private void TryToAnalyzeInHost(string toAnalyse, IMetadataHost host)
+        private void TryToAnalyze(string toAnalyze, ModuleDefinition moduleDefinition, CSharpDecompiler decompiler)
         {
-            var assembly = host.LoadUnitFrom(toAnalyse) as IAssembly;
-            if (assembly != null) AnalyzeInHost(toAnalyse, host, assembly);
+            Analyze(toAnalyze, moduleDefinition, decompiler);
         }
 
-        private void AnalyzeInHost(string toAnalyse, IMetadataHost host, IAssembly assembly)
+        private void Analyze(string toAnalyse, ModuleDefinition moduleDefinition, CSharpDecompiler decompiler)
         {
-            string pdbPath = GetProgramDatabasePath(toAnalyse);
-            AnalyzeAssemblyInHost(host, assembly, pdbPath);
+            var pdbPath = GetProgramDatabasePath(toAnalyse);
+            AnalyzeAssembly(moduleDefinition, pdbPath, decompiler);
         }
 
-        private string GetProgramDatabasePath(string toAnalyse)
+        private static string GetProgramDatabasePath(string toAnalyse)
         {
             string pdbFile = Path.ChangeExtension(toAnalyse, "pdb");
             return File.Exists(pdbFile) ? pdbFile : null;
         }
 
-        private void AnalyzeAssemblyInHost(IMetadataHost host, IAssembly assembly, string pdbPath)
+        private void AnalyzeAssembly(ModuleDefinition assembly, string pdbPath, CSharpDecompiler decompiler)
         {
-            if (pdbPath != null)
-                AnalyzeAssemblyInHostWithProgramDatabase(assembly, host, pdbPath);
-            else
-                AnalyzeTypes(assembly, null, host, Report);
+            LoadSymbols(assembly, pdbPath);
+            AnalyzeTypes(assembly, Report, decompiler);
         }
 
-        private void AnalyzeAssemblyInHostWithProgramDatabase(IAssembly assembly, IMetadataHost host, string pdbPath)
+        private static void LoadSymbols(ModuleDefinition module, string pdbPath)
         {
-            using (var pdb = GetProgramDatabase(host, pdbPath))
-                AnalyzeTypes(assembly, pdb, host, Report);
+            if (!module.HasDebugHeader || pdbPath == null)
+            {
+                return;
+            }
+            
+            using (Stream s = File.OpenRead(pdbPath))
+            {
+                module.ReadSymbols(new Mono.Cecil.Pdb.PdbReaderProvider().GetSymbolReader(module, s));
+            }
         }
 
-        private PdbReader GetProgramDatabase(IMetadataHost host, string pdbPath)
-        {
-            return new PdbReader(File.OpenRead(pdbPath), host);
-        }
-
-        protected abstract void AnalyzeTypes(IAssembly assembly, PdbReader pdb, IMetadataHost host, MetricsReport report);
+        protected abstract void AnalyzeTypes(ModuleDefinition assembly, MetricsReport report, CSharpDecompiler decompiler);
     }
 }

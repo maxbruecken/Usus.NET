@@ -1,30 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
+using ICSharpCode.Decompiler.CSharp;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using Mono.Cecil.Pdb;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class NumberOfLogicalLines
     {
-        public static int Of(MethodDefinition method, PdbReader pdb)
+        public static int Of(MethodDefinition method, CSharpDecompiler decompiler)
         {
-            if (pdb != null)
-            {
-                if (pdb.IsIterator(method.Body)) return -1;
-                var locations = method.LocatedOperations(pdb);
-                return locations.GetAllStartLinesOfInterestingOpCodes().Distinct().Count();
-            }
-            return -1;
+            if (false/*pdb.IsIterator(method.Body)*/) return -1; // ToDo mb
+            var locations = method.LocatedOperations(decompiler);
+            return locations.GetAllStartLinesOfInterestingOpCodes().Distinct().Count();
         }
 
         private static IEnumerable<int> GetAllStartLinesOfInterestingOpCodes(this IEnumerable<OperationLocation> locations)
         {
             return from l in locations
                    where l.OperationCode.IsOpCodeOfInterest() && l.IsValidLocation
-                   select l.Location.StartLine;
+                   select l.Location.Line;
         }
 
         private static bool IsOpCodeOfInterest(this OpCode opCode)

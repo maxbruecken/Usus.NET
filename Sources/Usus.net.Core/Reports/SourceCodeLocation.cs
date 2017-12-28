@@ -8,6 +8,7 @@ namespace andrena.Usus.net.Core.Reports
         public bool IsAvailable { get { return !string.IsNullOrEmpty(Filename); } }
 
         public string Filename { get; internal set; }
+
         public int Line { get; internal set; }
     }
 }

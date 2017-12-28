@@ -1,30 +1,31 @@
 using System.Collections.Generic;
 using andrena.Usus.net.Core.AssemblyNavigation;
-using Microsoft.Cci;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class TypeDependenciesOfTypeMentions
     {
-        public static IEnumerable<string> Of(IMethodDefinition method)
+        public static IEnumerable<string> Of(MethodDefinition method)
         {
             return method.TypesOfOperations(
                 o => o.IsTypeMentionOperation(),
                 o => o.TypeMentionType());
         }
 
-        private static bool IsTypeMentionOperation(this OperationCode o)
+        private static bool IsTypeMentionOperation(this OpCode o)
         {
-            return o == OperationCode.Isinst
-                || o == OperationCode.Castclass
-                || o == OperationCode.Box
-                || o == OperationCode.Ldtoken;
+            return o.Code == Code.Isinst
+                || o.Code == Code.Castclass
+                || o.Code == Code.Box
+                || o.Code == Code.Ldtoken;
         }
 
-        private static IEnumerable<ITypeReference> TypeMentionType(this IOperation o)
+        private static IEnumerable<TypeReference> TypeMentionType(this Instruction o)
         {
-            if (o.Value is ITypeReference)
-                yield return o.Value as ITypeReference;
+            if (o.Operand is TypeReference)
+                yield return o.Operand as TypeReference;
         }
     }
 }

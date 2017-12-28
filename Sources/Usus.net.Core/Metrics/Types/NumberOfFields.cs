@@ -1,21 +1,21 @@
 ﻿using System.Linq;
-using Microsoft.Cci;
 using andrena.Usus.net.Core.AssemblyNavigation;
+using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.Metrics.Types
 {
     internal static class NumberOfFields
     {
-        public static int Of(INamedTypeDefinition type)
+        public static int Of(TypeDefinition type)
         {
             return type.Fields.Count(f => !f.IsGeneratedCode());
         }
 
-        public static int NotStaticAndPublic(INamedTypeDefinition type)
+        public static int NotStaticAndPublic(TypeDefinition type)
         {
             return type.Fields.Count(f 
                 => !f.IsStatic 
-                && f.Visibility == TypeMemberVisibility.Public
+                && f.IsPublic
                 && !f.IsGeneratedCode());
         }
     }

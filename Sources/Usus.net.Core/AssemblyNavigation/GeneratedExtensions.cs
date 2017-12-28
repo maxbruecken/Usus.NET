@@ -1,28 +1,19 @@
+using ICSharpCode.Decompiler;
 using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
 {
     internal static class GeneratedExtensions
     {
-        public static bool IsGeneratedCode(this IReference r)
+        public static bool IsGeneratedCode(this ICustomAttributeProvider r)
         {
-            return r.HasGeneratedCodeAttributes() 
+            return r.IsCompilerGenerated() 
                 || r.HasWeirdName();
         }
 
-        private static bool HasWeirdName(this IReference r)
+        private static bool HasWeirdName(this ICustomAttributeProvider r)
         {
             return r.ToString().Contains("<>");
-        }
-
-        private static bool HasGeneratedCodeAttributes(this IReference r)
-        {
-            return r.Attributes.Any((a => a.IsGeneratedCodeAttribute()));
-        }
-
-        private static bool IsGeneratedCodeAttribute(this ICustomAttribute a)
-        {
-            return a.Type.ToString().Contains("CompilerGeneratedAttribute");
         }
     }
 }
