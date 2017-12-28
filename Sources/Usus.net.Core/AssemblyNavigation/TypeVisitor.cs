@@ -16,7 +16,7 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
 
         private IEnumerable<TypeMetricsWithMethodMetrics> AnalyzeTypes(ModuleDefinition assembly, CSharpDecompiler decompiler)
         {
-            return from type in assembly.Types
+            return from type in assembly.GetTypes()
                    where type.Name != "<Module>"
                    select TypeAndMethods(type, decompiler);
         }

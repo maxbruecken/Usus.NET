@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using andrena.Usus.net.Core.AssemblyNavigation;
+using andrena.Usus.net.Core.Helper;
+using andrena.Usus.net.Core.Helper.Reflection;
 using andrena.Usus.net.Core.Metrics.Methods;
 using andrena.Usus.net.Core.Metrics.Types;
 using andrena.Usus.net.Core.Reports;
@@ -16,7 +18,7 @@ namespace andrena.Usus.net.Core.Metrics
             return new TypeMetricsReport
             {
                 Name = type.Name,
-                FullName = type.FullName,
+                FullName = type.GetFullName(),
                 SourceLocation = SourceCodeLocating.OfType(type, decompiler),
                 Namespaces = type.Namespaces(),
                 CompilerGenerated = type.IsGeneratedCode(),

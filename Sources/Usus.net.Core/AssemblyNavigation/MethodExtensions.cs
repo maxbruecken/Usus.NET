@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using andrena.Usus.net.Core.Helper;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using Mono.Cecil;
@@ -27,17 +28,18 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
 
         public static bool HasOperations(this MethodDefinition method)
         {
-            return method.Body.Instructions.Any();
+            return method.HasBody && method.Body.Instructions.Any();
         }
 
         public static bool IsDefaultCtor(this MethodDefinition method)
         {
-            return method.Name.EndsWith("..ctor()");
+            return method.FullName.EndsWith(".ctor()");
         }
 
         public static IEnumerable<Instruction> Operations(this MethodDefinition method,
             Func<OpCode, bool> predicate)
         {
+            if (!method.HasBody) return Enumerable.Empty<Instruction>();
             return from o in method.Body.Instructions
                    where predicate(o.OpCode)
                    select o;
@@ -50,11 +52,12 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
             return from o in method.Operations(predicate)
                    from t in selector(o)
                    from rt in t.GetAllRealTypeReferences()
-                   select rt.ToString();
+                   select rt.GetFullName();
         }
 
         public static IEnumerable<OperationLocation> LocatedOperations(this MethodDefinition method, CSharpDecompiler decompiler)
         {
+            if (!method.HasBody) return Enumerable.Empty<OperationLocation>();
             return (from o in method.Body.Instructions
                     from l in o.GetLocations(decompiler)
                     select new OperationLocation { Operation = o, Location = l }).ToList();

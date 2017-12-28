@@ -2,6 +2,7 @@
 using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
 using andrena.Usus.net.Core.Helper;
+using andrena.Usus.net.Core.Helper.Reflection;
 using andrena.Usus.net.Core.Reports;
 using Mono.Cecil;
 using TypeReference = Mono.Cecil.TypeReference;
@@ -18,7 +19,7 @@ namespace andrena.Usus.net.Core.Metrics.Types
             var typesOfGenerics = GetGenericConstraints(type).ToList();
 
             return Enumerable.Empty<string>()
-                .Union(type.FullName.Return())
+                .Union(type.GetFullName().Return())
                 .Union(typesOfMethods)
                 .Union(typesOfFields)
                 .Union(typesOfAncestors)
@@ -37,19 +38,19 @@ namespace andrena.Usus.net.Core.Metrics.Types
         {
             return from f in fields
                    from t in f.FieldType.GetAllRealTypeReferences()
-                   select t.ToString();
+                   select t.GetFullName();
         }
 
         private static IEnumerable<string> GetAncestorTypes(TypeDefinition type)
         {
             return from c in type.BaseClasses().Concat(type.Interfaces.Select(i => i.InterfaceType))
                    from t in c.GetAllRealTypeReferences()
-                   select t.ToString();
+                   select t.GetFullName();
         }
 
         private static IEnumerable<TypeReference> BaseClasses(this TypeDefinition type)
         {
-            return new[] {type.BaseType}; // ToDo mb
+            return type.BaseType != null ? new[] {type.BaseType} : Enumerable.Empty<TypeReference>(); // ToDo mb
         }
 
         private static IEnumerable<string> GetGenericConstraints(TypeDefinition type)
@@ -57,7 +58,7 @@ namespace andrena.Usus.net.Core.Metrics.Types
             return from g in type.GenericParameters
                    from c in g.Constraints
                    from t in c.GetAllRealTypeReferences()
-                   select t.ToString();
+                   select t.GetFullName();
         }
     }
 }

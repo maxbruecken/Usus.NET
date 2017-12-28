@@ -43,7 +43,7 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
 
         private static IEnumerable<TypeReference> GetGenericType(GenericInstanceType typeReference)
         {
-            yield return typeReference.DeclaringType;
+            yield return typeReference.ElementType;
         }
 
         private static IEnumerable<TypeReference> GetGenericTypeArguments(GenericInstanceType typeReference)

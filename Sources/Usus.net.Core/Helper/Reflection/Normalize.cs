@@ -38,7 +38,7 @@ namespace andrena.Usus.net.Core.Helper.Reflection
 
         internal static string SubTypeName(string subTypeName)
         {
-            return subTypeName.Replace("+", ".");
+            return subTypeName.Replace("+", ".").Replace("/", ".");
         }
     }
 }

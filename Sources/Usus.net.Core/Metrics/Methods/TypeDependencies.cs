@@ -13,7 +13,7 @@ namespace andrena.Usus.net.Core.Metrics.Methods
             var typesOfVariables = TypeDependenciesOfVariables.Of(method).ToList();
             var typesOfCallOperations = TypeDependenciesOfCallOperations.Of(method).ToList();
             var typesOfNewOperations = TypeDependenciesOfNewOperations.Of(method).ToList();
-            var typesOfCatches = TypeDependenciesOfCatches.Of(method).ToList();
+            var typesOfCatches = Enumerable.Empty<string>();//TypeDependenciesOfCatches.Of(method).ToList(); // ToDo mb
             var typesOfTypeMentions = TypeDependenciesOfTypeMentions.Of(method).ToList();
 
             return Enumerable.Empty<string>()
