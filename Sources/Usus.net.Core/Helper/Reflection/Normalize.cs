@@ -11,7 +11,13 @@ namespace andrena.Usus.net.Core.Helper.Reflection
 
         public static string MethodName(this string methodName)
         {
-            return WhiteSpaces(ByRefs(GenericName(PropertyName(methodName))));
+            return WhiteSpaces(ByRefs(GenericName(SubTypeName(PropertyName(methodName)))));
+        }
+
+        public static string FullMethodName(this string fullMethodName)
+        {
+            var parts = fullMethodName.Split(new [] {"::"}, StringSplitOptions.RemoveEmptyEntries);
+            return TypeName(parts[0]) + "." + WhiteSpaces(ByRefs(GenericName(SubTypeName(PropertyName(parts[1])))));
         }
 
         internal static string PropertyName(string methodName)

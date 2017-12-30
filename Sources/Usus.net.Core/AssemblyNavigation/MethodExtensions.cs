@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using andrena.Usus.net.Core.Helper;
+using andrena.Usus.net.Core.Helper.Reflection;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using Mono.Cecil;
@@ -13,7 +14,7 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
     {
         public static string Signature(this MethodDefinition method)
         {
-            return method.ToString().Replace(", ", ",");
+            return Normalize.FullMethodName(method.ToString());
         }
 
         public static string Name(this MethodDefinition method)

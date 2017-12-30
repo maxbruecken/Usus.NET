@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
 using andrena.Usus.net.Core.Helper;
-using andrena.Usus.net.Core.Helper.Reflection;
 using andrena.Usus.net.Core.Reports;
 using Mono.Cecil;
 using TypeReference = Mono.Cecil.TypeReference;

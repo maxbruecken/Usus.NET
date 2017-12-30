@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using andrena.Usus.net.Core.Helper;
+using ICSharpCode.Decompiler;
 using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
@@ -13,33 +15,22 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
 
         private static IEnumerable<string> AllNamespaces(this TypeDefinition type)
         {
-            if (type.IsNested)
-                return type.AllNamespacesFromNestedType();
-
-            return new[] {type.Namespace};
-
-            return "".Return();
+            if (type.IsNested) return type.DeclaringType.AllNamespaces();
+            var namespaceParts = type.Namespace.Split('.');
+            return Combine(namespaceParts).Reverse();
         }
 
-        private static IEnumerable<string> AllNamespacesFromNestedType(this TypeDefinition nestedType)
+        private static IEnumerable<string> Combine(this IEnumerable<string> parts)
         {
-            return new [] {nestedType.Namespace}; // ToDo mb
+            if (!parts.Any()) yield break;
+
+            var result = string.Empty;
+            var enumerator = parts.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                result = result + (string.IsNullOrEmpty(result) ? string.Empty : ".") + enumerator.Current;
+                yield return result;
+            }
         }
-
-        //private static IEnumerable<string> AllNamespaces(this INamespaceTypeReference namespaceType)
-        //{
-        //    INestedUnitNamespace nestedNamespace = namespaceType.ContainingUnitNamespace as INestedUnitNamespace;
-        //    return nestedNamespace.AllNamespaces();
-        //}
-
-        //private static IEnumerable<string> AllNamespaces(this INestedUnitNamespace nestedNamespace)
-        //{
-        //    if (nestedNamespace != null)
-        //    {
-        //        yield return nestedNamespace.ToString();
-        //        foreach (var ns in AllNamespaces(nestedNamespace.ContainingUnitNamespace as INestedUnitNamespace))
-        //            yield return ns;
-        //    }
-        //}
     }
 }
