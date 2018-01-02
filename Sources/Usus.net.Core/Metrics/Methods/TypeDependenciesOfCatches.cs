@@ -3,6 +3,7 @@ using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
 using andrena.Usus.net.Core.Helper;
 using Mono.Cecil;
+using Mono.Cecil.Cil;
 
 namespace andrena.Usus.net.Core.Metrics.Methods
 {
@@ -12,7 +13,8 @@ namespace andrena.Usus.net.Core.Metrics.Methods
         {
             if (!method.HasBody) return Enumerable.Empty<string>();
             return from e in method.Body.ExceptionHandlers
-                   from t in Enumerable.Empty<TypeReference>() // e.CatchType.GetAllRealTypeReferences() // ToDo mb
+                   where e.HandlerType == ExceptionHandlerType.Catch
+                   from t in e.CatchType.GetAllRealTypeReferences()
                    select t.GetFullName();
         }
     }
