@@ -109,3 +109,4 @@ UpgradeLog*.XML
 
 _sqi/
 *.vsix
+/Sources/.vs
