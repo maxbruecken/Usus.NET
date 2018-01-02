@@ -20,7 +20,7 @@ namespace andrena.Usus.net.Core.Helper
 
         public static string ReplaceRegex(this string fullText, string searchPattern, string replacePattern)
         {
-            return Regex.Replace(fullText, "`.*?\\[", "[");
+            return Regex.Replace(fullText, searchPattern, replacePattern);
         }
     }
 }

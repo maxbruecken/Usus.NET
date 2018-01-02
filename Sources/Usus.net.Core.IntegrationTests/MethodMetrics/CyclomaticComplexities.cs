@@ -179,10 +179,7 @@ namespace Usus.net.Core.IntegrationTests.MethodMetrics
                 Console.WriteLine();
         }
 
-        [ExpectCyclomaticComplexity(3)]
-        /* •———————————————————————————————————————————————•
-           | Compiler creates while/if/finally statements. |
-           •———————————————————————————————————————————————• */
+        [ExpectCyclomaticComplexity(2)]
         public static void MethodWithForeach()
         {
             foreach (var item in Enumerable.Repeat(0, 2))

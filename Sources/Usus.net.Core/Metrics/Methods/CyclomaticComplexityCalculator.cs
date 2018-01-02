@@ -24,13 +24,13 @@ namespace andrena.Usus.net.Core.Metrics.Methods
         public override void VisitIfElseStatement(IfElseStatement ifElseStatement)
         {
             Result++;
-            VisitStatementAndChildren(ifElseStatement);
+            base.VisitIfElseStatement(ifElseStatement);
         }
 
         public override void VisitConditionalExpression(ConditionalExpression conditionalExpression)
         {
             Result++;
-            VisitStatementAndChildren(conditionalExpression);
+            base.VisitConditionalExpression(conditionalExpression);
         }
 
         public override void VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression)
@@ -39,44 +39,50 @@ namespace andrena.Usus.net.Core.Metrics.Methods
                 Result++;
             if (binaryOperatorExpression.Operator == BinaryOperatorType.ConditionalAnd || binaryOperatorExpression.Operator == BinaryOperatorType.ConditionalOr)
                 Result++;
-            VisitStatementAndChildren(binaryOperatorExpression);
+            base.VisitBinaryOperatorExpression(binaryOperatorExpression);
         }
 
         public override void VisitWhileStatement(WhileStatement whileStatement)
         {
             Result++;
-            VisitStatementAndChildren(whileStatement);
+            base.VisitWhileStatement(whileStatement);
         }
 
         public override void VisitDoWhileStatement(DoWhileStatement doWhileStatement)
         {
             Result++;
-            VisitStatementAndChildren(doWhileStatement);
+            base.VisitDoWhileStatement(doWhileStatement);
         }
 
         public override void VisitForStatement(ForStatement forStatement)
         {
             Result++;
-            VisitStatementAndChildren(forStatement);
+            base.VisitForStatement(forStatement);
         }
 
         public override void VisitForeachStatement(ForeachStatement foreachStatement)
         {
             Result++;
-            VisitStatementAndChildren(foreachStatement);
+            base.VisitForeachStatement(foreachStatement);
         }
 
         public override void VisitCatchClause(CatchClause catchClause)
         {
             Result++;
-            VisitStatementAndChildren(catchClause);
+            base.VisitCatchClause(catchClause);
         }
 
         public override void VisitCaseLabel(CaseLabel caseLabel)
         {
             if (!caseLabel.Expression.IsNull)
                 Result++;
-            VisitStatementAndChildren(caseLabel);
+            base.VisitCaseLabel(caseLabel);
         }
+
+	    public override void VisitQueryFromClause(QueryFromClause queryFromClause)
+	    {
+		    Result++;
+		    base.VisitQueryFromClause(queryFromClause);
+	    }
     }
 }

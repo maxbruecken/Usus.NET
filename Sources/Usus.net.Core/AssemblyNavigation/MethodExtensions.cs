@@ -14,7 +14,20 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
     {
         public static string Signature(this MethodDefinition method)
         {
-            return Normalize.FullMethodName(method.ToString());
+            var fullName = Normalize.FullMethodName(method.ToString());
+            if (method.HasGenericParameters)
+            {
+                fullName = fullName.Insert(fullName.LastIndexOf("(", StringComparison.InvariantCulture), $"<{string.Join(",", method.GenericParameters.Select(p => p.Name))}>");
+            }
+            if (method.Parameters.Any(p => p.IsOut) || method.Parameters.Any(p => p.ParameterType.IsByReference))
+            {
+                fullName = fullName.Replace("&", "");
+            }
+            if (method.ReturnType.IsGenericInstance || method.Parameters.Any(p => p.ParameterType.IsGenericInstance))
+            {
+                fullName = fullName.ReplaceRegex("`\\d+", "");
+            }
+            return fullName;
         }
 
         public static string Name(this MethodDefinition method)

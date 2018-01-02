@@ -10,8 +10,9 @@ namespace andrena.Usus.net.Core.Metrics.Methods
     {
         public static IEnumerable<string> Of(MethodDefinition method)
         {
-            return from e in method.Resolve().Body.ExceptionHandlers
-                   from t in e.CatchType.GetAllRealTypeReferences()
+            if (!method.HasBody) return Enumerable.Empty<string>();
+            return from e in method.Body.ExceptionHandlers
+                   from t in Enumerable.Empty<TypeReference>() // e.CatchType.GetAllRealTypeReferences() // ToDo mb
                    select t.GetFullName();
         }
     }

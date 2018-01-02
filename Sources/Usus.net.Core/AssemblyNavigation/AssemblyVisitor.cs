@@ -2,6 +2,7 @@
 using andrena.Usus.net.Core.Reports;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.CSharp.OutputVisitor;
 using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
@@ -14,35 +15,25 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
         {
             Report = new MetricsReport();
             var moduleDefinition = ModuleDefinition.ReadModule(assemblyPath);
-            var decompiler = new CSharpDecompiler(assemblyPath, new DecompilerSettings
-            {
-                AnonymousMethods = true,
-                AnonymousTypes = true,
-                AsyncAwait = true,
-                AlwaysUseBraces = true,
-                AutomaticEvents = true,
-                AutomaticProperties = true,
-                ExpressionTrees = true,
-                ForEachStatement = true,
-                ObjectOrCollectionInitializers = true
-            });
-            TryToAnalyze(assemblyPath, moduleDefinition, decompiler);
+	        var decompilerSettings = new DecompilerSettings();
+	        var decompiler = new CSharpDecompiler(moduleDefinition, decompilerSettings);
+            TryToAnalyze(moduleDefinition, decompiler);
         }
 
-        private void TryToAnalyze(string toAnalyze, ModuleDefinition moduleDefinition, CSharpDecompiler decompiler)
+        private void TryToAnalyze(ModuleDefinition moduleDefinition, CSharpDecompiler decompiler)
         {
-            Analyze(toAnalyze, moduleDefinition, decompiler);
+            Analyze(moduleDefinition, decompiler);
         }
 
-        private void Analyze(string toAnalyse, ModuleDefinition moduleDefinition, CSharpDecompiler decompiler)
+        private void Analyze(ModuleDefinition moduleDefinition, CSharpDecompiler decompiler)
         {
-            var pdbPath = GetProgramDatabasePath(toAnalyse);
+            var pdbPath = GetProgramDatabasePath(moduleDefinition.FileName);
             AnalyzeAssembly(moduleDefinition, pdbPath, decompiler);
         }
 
         private static string GetProgramDatabasePath(string toAnalyse)
         {
-            string pdbFile = Path.ChangeExtension(toAnalyse, "pdb");
+            var pdbFile = Path.ChangeExtension(toAnalyse, "pdb");
             return File.Exists(pdbFile) ? pdbFile : null;
         }
 

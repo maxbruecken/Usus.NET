@@ -6,12 +6,12 @@ namespace andrena.Usus.net.Core.Helper.Reflection
     {
         public static string TypeName(string typeName)
         {
-            return WhiteSpaces(GenericName(SubTypeName(typeName)));
+            return WhiteSpaces(ByRefs(GenericName(SubTypeName(typeName))));
         }
 
         public static string MethodName(this string methodName)
         {
-            return WhiteSpaces(ByRefs(GenericName(SubTypeName(PropertyName(methodName)))));
+            return WhiteSpaces(ByRefs(GenericName(PropertyName(methodName))));
         }
 
         public static string FullMethodName(this string fullMethodName)
@@ -34,7 +34,7 @@ namespace andrena.Usus.net.Core.Helper.Reflection
 
         internal static string ByRefs(string methodName)
         {
-            return methodName.Replace(" ByRef,", ",").Replace(" ByRef)", ")");
+            return methodName.Replace(" ByRef,", ",").Replace(" ByRef)", ")").Replace("&", "");
         }
 
         internal static string WhiteSpaces(string methodName)
