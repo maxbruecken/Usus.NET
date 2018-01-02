@@ -7,610 +7,610 @@ namespace andrena.Usus.net.Core.Metrics
     {
         public virtual void VisitAnonymousMethodExpression(AnonymousMethodExpression anonymousMethodExpression)
         {
-            VisitStatementAndChildren(anonymousMethodExpression);
+            VisitNodeAndChildren(anonymousMethodExpression);
         }
 
-        protected virtual void VisitAstNode(AstNode node)
+	    private void VisitNodeAndChildren(AstNode node)
         {
-        }
-
-        protected void VisitStatementAndChildren(AstNode node)
-        {
-
+			VisitAstNode(node);
             foreach (var child in node.Children)
             {
                 child.AcceptVisitor(this);
             }
-        }
+		}
 
-        public virtual void VisitAnonymousTypeCreateExpression(AnonymousTypeCreateExpression anonymousTypeCreateExpression)
+	    protected virtual void VisitAstNode(AstNode node)
+	    {
+	    }
+
+		public virtual void VisitAnonymousTypeCreateExpression(AnonymousTypeCreateExpression anonymousTypeCreateExpression)
         {
-            VisitStatementAndChildren(anonymousTypeCreateExpression);
+            VisitNodeAndChildren(anonymousTypeCreateExpression);
         }
 
         public virtual void VisitArrayCreateExpression(ArrayCreateExpression arrayCreateExpression)
         {
-            VisitStatementAndChildren(arrayCreateExpression);
+            VisitNodeAndChildren(arrayCreateExpression);
         }
 
         public virtual void VisitArrayInitializerExpression(ArrayInitializerExpression arrayInitializerExpression)
         {
-            VisitStatementAndChildren(arrayInitializerExpression);
+            VisitNodeAndChildren(arrayInitializerExpression);
         }
 
         public virtual void VisitAsExpression(AsExpression asExpression)
         {
-            VisitStatementAndChildren(asExpression);
+            VisitNodeAndChildren(asExpression);
         }
 
         public virtual void VisitAssignmentExpression(AssignmentExpression assignmentExpression)
         {
-            VisitStatementAndChildren(assignmentExpression);
+            VisitNodeAndChildren(assignmentExpression);
         }
 
         public virtual void VisitBaseReferenceExpression(BaseReferenceExpression baseReferenceExpression)
         {
-            VisitStatementAndChildren(baseReferenceExpression);
+            VisitNodeAndChildren(baseReferenceExpression);
         }
 
         public virtual void VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression)
         {
-            VisitStatementAndChildren(binaryOperatorExpression);
+            VisitNodeAndChildren(binaryOperatorExpression);
         }
 
         public virtual void VisitCastExpression(CastExpression castExpression)
         {
-            VisitStatementAndChildren(castExpression);
+            VisitNodeAndChildren(castExpression);
         }
 
         public virtual void VisitCheckedExpression(CheckedExpression checkedExpression)
         {
-            VisitStatementAndChildren(checkedExpression);
+            VisitNodeAndChildren(checkedExpression);
         }
 
         public virtual void VisitConditionalExpression(ConditionalExpression conditionalExpression)
         {
-            VisitStatementAndChildren(conditionalExpression);
+            VisitNodeAndChildren(conditionalExpression);
         }
 
         public virtual void VisitDefaultValueExpression(DefaultValueExpression defaultValueExpression)
         {
-            VisitStatementAndChildren(defaultValueExpression);
+            VisitNodeAndChildren(defaultValueExpression);
         }
 
         public virtual void VisitDirectionExpression(DirectionExpression directionExpression)
         {
-            VisitStatementAndChildren(directionExpression);
+            VisitNodeAndChildren(directionExpression);
         }
 
         public virtual void VisitIdentifierExpression(IdentifierExpression identifierExpression)
         {
-            VisitStatementAndChildren(identifierExpression);
+            VisitNodeAndChildren(identifierExpression);
         }
 
         public virtual void VisitIndexerExpression(IndexerExpression indexerExpression)
         {
-            VisitStatementAndChildren(indexerExpression);
+            VisitNodeAndChildren(indexerExpression);
         }
 
         public virtual void VisitInvocationExpression(InvocationExpression invocationExpression)
         {
-            VisitStatementAndChildren(invocationExpression);
+            VisitNodeAndChildren(invocationExpression);
         }
 
         public virtual void VisitIsExpression(IsExpression isExpression)
         {
-            VisitStatementAndChildren(isExpression);
+            VisitNodeAndChildren(isExpression);
         }
 
         public virtual void VisitLambdaExpression(LambdaExpression lambdaExpression)
         {
-            VisitStatementAndChildren(lambdaExpression);
+            VisitNodeAndChildren(lambdaExpression);
         }
 
         public virtual void VisitMemberReferenceExpression(MemberReferenceExpression memberReferenceExpression)
         {
-            VisitStatementAndChildren(memberReferenceExpression);
+            VisitNodeAndChildren(memberReferenceExpression);
         }
 
         public virtual void VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression)
         {
-            VisitStatementAndChildren(namedArgumentExpression);
+            VisitNodeAndChildren(namedArgumentExpression);
         }
 
         public virtual void VisitNamedExpression(NamedExpression namedExpression)
         {
-            VisitStatementAndChildren(namedExpression);
+            VisitNodeAndChildren(namedExpression);
         }
 
         public virtual void VisitNullReferenceExpression(NullReferenceExpression nullReferenceExpression)
         {
-            VisitStatementAndChildren(nullReferenceExpression);
+            VisitNodeAndChildren(nullReferenceExpression);
         }
 
         public virtual void VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression)
         {
-            VisitStatementAndChildren(objectCreateExpression);
+            VisitNodeAndChildren(objectCreateExpression);
         }
 
         public virtual void VisitOutVarDeclarationExpression(OutVarDeclarationExpression outVarDeclarationExpression)
         {
-            VisitStatementAndChildren(outVarDeclarationExpression);
+            VisitNodeAndChildren(outVarDeclarationExpression);
         }
 
         public virtual void VisitParenthesizedExpression(ParenthesizedExpression parenthesizedExpression)
         {
-            VisitStatementAndChildren(parenthesizedExpression);
+            VisitNodeAndChildren(parenthesizedExpression);
         }
 
         public virtual void VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression)
         {
-            VisitStatementAndChildren(pointerReferenceExpression);
+            VisitNodeAndChildren(pointerReferenceExpression);
         }
 
         public virtual void VisitPrimitiveExpression(PrimitiveExpression primitiveExpression)
         {
-            VisitStatementAndChildren(primitiveExpression);
+            VisitNodeAndChildren(primitiveExpression);
         }
 
         public virtual void VisitSizeOfExpression(SizeOfExpression sizeOfExpression)
         {
-            VisitStatementAndChildren(sizeOfExpression);
+            VisitNodeAndChildren(sizeOfExpression);
         }
 
         public virtual void VisitStackAllocExpression(StackAllocExpression stackAllocExpression)
         {
-            VisitStatementAndChildren(stackAllocExpression);
+            VisitNodeAndChildren(stackAllocExpression);
         }
 
         public virtual void VisitThisReferenceExpression(ThisReferenceExpression thisReferenceExpression)
         {
-            VisitStatementAndChildren(thisReferenceExpression);
+            VisitNodeAndChildren(thisReferenceExpression);
         }
 
         public virtual void VisitThrowExpression(ThrowExpression throwExpression)
         {
-            VisitStatementAndChildren(throwExpression);
+            VisitNodeAndChildren(throwExpression);
         }
 
         public virtual void VisitTypeOfExpression(TypeOfExpression typeOfExpression)
         {
-            VisitStatementAndChildren(typeOfExpression);
+            VisitNodeAndChildren(typeOfExpression);
         }
 
         public virtual void VisitTypeReferenceExpression(TypeReferenceExpression typeReferenceExpression)
         {
-            VisitStatementAndChildren(typeReferenceExpression);
+            VisitNodeAndChildren(typeReferenceExpression);
         }
 
         public virtual void VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression)
         {
-            VisitStatementAndChildren(unaryOperatorExpression);
+            VisitNodeAndChildren(unaryOperatorExpression);
         }
 
         public virtual void VisitUncheckedExpression(UncheckedExpression uncheckedExpression)
         {
-            VisitStatementAndChildren(uncheckedExpression);
+            VisitNodeAndChildren(uncheckedExpression);
         }
 
         public virtual void VisitUndocumentedExpression(UndocumentedExpression undocumentedExpression)
         {
-            VisitStatementAndChildren(undocumentedExpression);
+            VisitNodeAndChildren(undocumentedExpression);
         }
 
         public virtual void VisitQueryExpression(QueryExpression queryExpression)
         {
-            VisitStatementAndChildren(queryExpression);
+            VisitNodeAndChildren(queryExpression);
         }
 
         public virtual void VisitQueryContinuationClause(QueryContinuationClause queryContinuationClause)
         {
-            VisitStatementAndChildren(queryContinuationClause);
+            VisitNodeAndChildren(queryContinuationClause);
         }
 
         public virtual void VisitQueryFromClause(QueryFromClause queryFromClause)
         {
-            VisitStatementAndChildren(queryFromClause);
+            VisitNodeAndChildren(queryFromClause);
         }
 
         public virtual void VisitQueryLetClause(QueryLetClause queryLetClause)
         {
-            VisitStatementAndChildren(queryLetClause);
+            VisitNodeAndChildren(queryLetClause);
         }
 
         public virtual void VisitQueryWhereClause(QueryWhereClause queryWhereClause)
         {
-            VisitStatementAndChildren(queryWhereClause);
+            VisitNodeAndChildren(queryWhereClause);
         }
 
         public virtual void VisitQueryJoinClause(QueryJoinClause queryJoinClause)
         {
-            VisitStatementAndChildren(queryJoinClause);
+            VisitNodeAndChildren(queryJoinClause);
         }
 
         public virtual void VisitQueryOrderClause(QueryOrderClause queryOrderClause)
         {
-            VisitStatementAndChildren(queryOrderClause);
+            VisitNodeAndChildren(queryOrderClause);
         }
 
         public virtual void VisitQueryOrdering(QueryOrdering queryOrdering)
         {
-            VisitStatementAndChildren(queryOrdering);
+            VisitNodeAndChildren(queryOrdering);
         }
 
         public virtual void VisitQuerySelectClause(QuerySelectClause querySelectClause)
         {
-            VisitStatementAndChildren(querySelectClause);
+            VisitNodeAndChildren(querySelectClause);
         }
 
         public virtual void VisitQueryGroupClause(QueryGroupClause queryGroupClause)
         {
-            VisitStatementAndChildren(queryGroupClause);
+            VisitNodeAndChildren(queryGroupClause);
         }
 
         public virtual void VisitAttribute(Attribute attribute)
         {
-            VisitStatementAndChildren(attribute);
+            VisitNodeAndChildren(attribute);
         }
 
         public virtual void VisitAttributeSection(AttributeSection attributeSection)
         {
-            VisitStatementAndChildren(attributeSection);
+            VisitNodeAndChildren(attributeSection);
         }
 
         public virtual void VisitDelegateDeclaration(DelegateDeclaration delegateDeclaration)
         {
-            VisitStatementAndChildren(delegateDeclaration);
+            VisitNodeAndChildren(delegateDeclaration);
         }
 
         public virtual void VisitNamespaceDeclaration(NamespaceDeclaration namespaceDeclaration)
         {
-            VisitStatementAndChildren(namespaceDeclaration);
+            VisitNodeAndChildren(namespaceDeclaration);
         }
 
         public virtual void VisitTypeDeclaration(TypeDeclaration typeDeclaration)
         {
-            VisitStatementAndChildren(typeDeclaration);
+            VisitNodeAndChildren(typeDeclaration);
         }
 
         public virtual void VisitUsingAliasDeclaration(UsingAliasDeclaration usingAliasDeclaration)
         {
-            VisitStatementAndChildren(usingAliasDeclaration);
+            VisitNodeAndChildren(usingAliasDeclaration);
         }
 
         public virtual void VisitUsingDeclaration(UsingDeclaration usingDeclaration)
         {
-            VisitStatementAndChildren(usingDeclaration);
+            VisitNodeAndChildren(usingDeclaration);
         }
 
         public virtual void VisitExternAliasDeclaration(ExternAliasDeclaration externAliasDeclaration)
         {
-            VisitStatementAndChildren(externAliasDeclaration);
+            VisitNodeAndChildren(externAliasDeclaration);
         }
 
         public virtual void VisitBlockStatement(BlockStatement blockStatement)
         {
-            VisitStatementAndChildren(blockStatement);
+            VisitNodeAndChildren(blockStatement);
         }
 
         public virtual void VisitBreakStatement(BreakStatement breakStatement)
         {
-            VisitStatementAndChildren(breakStatement);
+            VisitNodeAndChildren(breakStatement);
         }
 
         public virtual void VisitCheckedStatement(CheckedStatement checkedStatement)
         {
-            VisitStatementAndChildren(checkedStatement);
+            VisitNodeAndChildren(checkedStatement);
         }
 
         public virtual void VisitContinueStatement(ContinueStatement continueStatement)
         {
-            VisitStatementAndChildren(continueStatement);
+            VisitNodeAndChildren(continueStatement);
         }
 
         public virtual void VisitDoWhileStatement(DoWhileStatement doWhileStatement)
         {
-            VisitStatementAndChildren(doWhileStatement);
+            VisitNodeAndChildren(doWhileStatement);
         }
 
         public virtual void VisitEmptyStatement(EmptyStatement emptyStatement)
         {
-            VisitStatementAndChildren(emptyStatement);
+            VisitNodeAndChildren(emptyStatement);
         }
 
         public virtual void VisitExpressionStatement(ExpressionStatement expressionStatement)
         {
-            VisitStatementAndChildren(expressionStatement);
+            VisitNodeAndChildren(expressionStatement);
         }
 
         public virtual void VisitFixedStatement(FixedStatement fixedStatement)
         {
-            VisitStatementAndChildren(fixedStatement);
+            VisitNodeAndChildren(fixedStatement);
         }
 
         public virtual void VisitForeachStatement(ForeachStatement foreachStatement)
         {
-            VisitStatementAndChildren(foreachStatement);
+            VisitNodeAndChildren(foreachStatement);
         }
 
         public virtual void VisitForStatement(ForStatement forStatement)
         {
-            VisitStatementAndChildren(forStatement);
+            VisitNodeAndChildren(forStatement);
         }
 
         public virtual void VisitGotoCaseStatement(GotoCaseStatement gotoCaseStatement)
         {
-            VisitStatementAndChildren(gotoCaseStatement);
+            VisitNodeAndChildren(gotoCaseStatement);
         }
 
         public virtual void VisitGotoDefaultStatement(GotoDefaultStatement gotoDefaultStatement)
         {
-            VisitStatementAndChildren(gotoDefaultStatement);
+            VisitNodeAndChildren(gotoDefaultStatement);
         }
 
         public virtual void VisitGotoStatement(GotoStatement gotoStatement)
         {
-            VisitStatementAndChildren(gotoStatement);
+            VisitNodeAndChildren(gotoStatement);
         }
 
         public virtual void VisitIfElseStatement(IfElseStatement ifElseStatement)
         {
-            VisitStatementAndChildren(ifElseStatement);
+            VisitNodeAndChildren(ifElseStatement);
         }
 
         public virtual void VisitLabelStatement(LabelStatement labelStatement)
         {
-            VisitStatementAndChildren(labelStatement);
+            VisitNodeAndChildren(labelStatement);
         }
 
         public virtual void VisitLockStatement(LockStatement lockStatement)
         {
-            VisitStatementAndChildren(lockStatement);
+            VisitNodeAndChildren(lockStatement);
         }
 
         public virtual void VisitReturnStatement(ReturnStatement returnStatement)
         {
-            VisitStatementAndChildren(returnStatement);
+            VisitNodeAndChildren(returnStatement);
         }
 
         public virtual void VisitSwitchStatement(SwitchStatement switchStatement)
         {
-            VisitStatementAndChildren(switchStatement);
+            VisitNodeAndChildren(switchStatement);
         }
 
         public virtual void VisitSwitchSection(SwitchSection switchSection)
         {
-            VisitStatementAndChildren(switchSection);
+            VisitNodeAndChildren(switchSection);
         }
 
         public virtual void VisitCaseLabel(CaseLabel caseLabel)
         {
-            VisitStatementAndChildren(caseLabel);
+            VisitNodeAndChildren(caseLabel);
         }
 
         public virtual void VisitThrowStatement(ThrowStatement throwStatement)
         {
-            VisitStatementAndChildren(throwStatement);
+            VisitNodeAndChildren(throwStatement);
         }
 
         public virtual void VisitTryCatchStatement(TryCatchStatement tryCatchStatement)
         {
-            VisitStatementAndChildren(tryCatchStatement);
+            VisitNodeAndChildren(tryCatchStatement);
         }
 
         public virtual void VisitCatchClause(CatchClause catchClause)
         {
-            VisitStatementAndChildren(catchClause);
+            VisitNodeAndChildren(catchClause);
         }
 
         public virtual void VisitUncheckedStatement(UncheckedStatement uncheckedStatement)
         {
-            VisitStatementAndChildren(uncheckedStatement);
+            VisitNodeAndChildren(uncheckedStatement);
         }
 
         public virtual void VisitUnsafeStatement(UnsafeStatement unsafeStatement)
         {
-            VisitStatementAndChildren(unsafeStatement);
+            VisitNodeAndChildren(unsafeStatement);
         }
 
         public virtual void VisitUsingStatement(UsingStatement usingStatement)
         {
-            VisitStatementAndChildren(usingStatement);
+            VisitNodeAndChildren(usingStatement);
         }
 
         public virtual void VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement)
         {
-            VisitStatementAndChildren(variableDeclarationStatement);
+            VisitNodeAndChildren(variableDeclarationStatement);
         }
 
         public virtual void VisitWhileStatement(WhileStatement whileStatement)
         {
-            VisitStatementAndChildren(whileStatement);
+            VisitNodeAndChildren(whileStatement);
         }
 
         public virtual void VisitYieldBreakStatement(YieldBreakStatement yieldBreakStatement)
         {
-            VisitStatementAndChildren(yieldBreakStatement);
+            VisitNodeAndChildren(yieldBreakStatement);
         }
 
         public virtual void VisitYieldReturnStatement(YieldReturnStatement yieldReturnStatement)
         {
-            VisitStatementAndChildren(yieldReturnStatement);
+            VisitNodeAndChildren(yieldReturnStatement);
         }
 
         public virtual void VisitAccessor(Accessor accessor)
         {
-            VisitStatementAndChildren(accessor);
+            VisitNodeAndChildren(accessor);
         }
 
         public virtual void VisitConstructorDeclaration(ConstructorDeclaration constructorDeclaration)
         {
-            VisitStatementAndChildren(constructorDeclaration);
+            VisitNodeAndChildren(constructorDeclaration);
         }
 
         public virtual void VisitConstructorInitializer(ConstructorInitializer constructorInitializer)
         {
-            VisitStatementAndChildren(constructorInitializer);
+            VisitNodeAndChildren(constructorInitializer);
         }
 
         public virtual void VisitDestructorDeclaration(DestructorDeclaration destructorDeclaration)
         {
-            VisitStatementAndChildren(destructorDeclaration);
+            VisitNodeAndChildren(destructorDeclaration);
         }
 
         public virtual void VisitEnumMemberDeclaration(EnumMemberDeclaration enumMemberDeclaration)
         {
-            VisitStatementAndChildren(enumMemberDeclaration);
+            VisitNodeAndChildren(enumMemberDeclaration);
         }
 
         public virtual void VisitEventDeclaration(EventDeclaration eventDeclaration)
         {
-            VisitStatementAndChildren(eventDeclaration);
+            VisitNodeAndChildren(eventDeclaration);
         }
 
         public virtual void VisitCustomEventDeclaration(CustomEventDeclaration customEventDeclaration)
         {
-            VisitStatementAndChildren(customEventDeclaration);
+            VisitNodeAndChildren(customEventDeclaration);
         }
 
         public virtual void VisitFieldDeclaration(FieldDeclaration fieldDeclaration)
         {
-            VisitStatementAndChildren(fieldDeclaration);
+            VisitNodeAndChildren(fieldDeclaration);
         }
 
         public virtual void VisitIndexerDeclaration(IndexerDeclaration indexerDeclaration)
         {
-            VisitStatementAndChildren(indexerDeclaration);
+            VisitNodeAndChildren(indexerDeclaration);
         }
 
         public virtual void VisitMethodDeclaration(MethodDeclaration methodDeclaration)
         {
-            VisitStatementAndChildren(methodDeclaration);
+            VisitNodeAndChildren(methodDeclaration);
         }
 
         public virtual void VisitOperatorDeclaration(OperatorDeclaration operatorDeclaration)
         {
-            VisitStatementAndChildren(operatorDeclaration);
+            VisitNodeAndChildren(operatorDeclaration);
         }
 
         public virtual void VisitParameterDeclaration(ParameterDeclaration parameterDeclaration)
         {
-            VisitStatementAndChildren(parameterDeclaration);
+            VisitNodeAndChildren(parameterDeclaration);
         }
 
         public virtual void VisitPropertyDeclaration(PropertyDeclaration propertyDeclaration)
         {
-            VisitStatementAndChildren(propertyDeclaration);
+            VisitNodeAndChildren(propertyDeclaration);
         }
 
         public virtual void VisitVariableInitializer(VariableInitializer variableInitializer)
         {
-            VisitStatementAndChildren(variableInitializer);
+            VisitNodeAndChildren(variableInitializer);
         }
 
         public virtual void VisitFixedFieldDeclaration(FixedFieldDeclaration fixedFieldDeclaration)
         {
-            VisitStatementAndChildren(fixedFieldDeclaration);
+            VisitNodeAndChildren(fixedFieldDeclaration);
         }
 
         public virtual void VisitFixedVariableInitializer(FixedVariableInitializer fixedVariableInitializer)
         {
-            VisitStatementAndChildren(fixedVariableInitializer);
+            VisitNodeAndChildren(fixedVariableInitializer);
         }
 
         public virtual void VisitSyntaxTree(SyntaxTree syntaxTree)
         {
-            VisitStatementAndChildren(syntaxTree);
+            VisitNodeAndChildren(syntaxTree);
         }
 
         public virtual void VisitSimpleType(SimpleType simpleType)
         {
-            VisitStatementAndChildren(simpleType);
+            VisitNodeAndChildren(simpleType);
         }
 
         public virtual void VisitMemberType(MemberType memberType)
         {
-            VisitStatementAndChildren(memberType);
+            VisitNodeAndChildren(memberType);
         }
 
         public virtual void VisitComposedType(ComposedType composedType)
         {
-            VisitStatementAndChildren(composedType);
+            VisitNodeAndChildren(composedType);
         }
 
         public virtual void VisitArraySpecifier(ArraySpecifier arraySpecifier)
         {
-            VisitStatementAndChildren(arraySpecifier);
+            VisitNodeAndChildren(arraySpecifier);
         }
 
         public virtual void VisitPrimitiveType(PrimitiveType primitiveType)
         {
-            VisitStatementAndChildren(primitiveType);
+            VisitNodeAndChildren(primitiveType);
         }
 
         public virtual void VisitComment(Comment comment)
         {
-            VisitStatementAndChildren(comment);
+            VisitNodeAndChildren(comment);
         }
 
         public virtual void VisitNewLine(NewLineNode newLineNode)
         {
-            VisitStatementAndChildren(newLineNode);
+            VisitNodeAndChildren(newLineNode);
         }
 
         public virtual void VisitWhitespace(WhitespaceNode whitespaceNode)
         {
-            VisitStatementAndChildren(whitespaceNode);
+            VisitNodeAndChildren(whitespaceNode);
         }
 
         public virtual void VisitText(TextNode textNode)
         {
-            VisitStatementAndChildren(textNode);
+            VisitNodeAndChildren(textNode);
         }
 
         public virtual void VisitPreProcessorDirective(PreProcessorDirective preProcessorDirective)
         {
-            VisitStatementAndChildren(preProcessorDirective);
+            VisitNodeAndChildren(preProcessorDirective);
         }
 
         public virtual void VisitDocumentationReference(DocumentationReference documentationReference)
         {
-            VisitStatementAndChildren(documentationReference);
+            VisitNodeAndChildren(documentationReference);
         }
 
         public virtual void VisitTypeParameterDeclaration(TypeParameterDeclaration typeParameterDeclaration)
         {
-            VisitStatementAndChildren(typeParameterDeclaration);
+            VisitNodeAndChildren(typeParameterDeclaration);
         }
 
         public virtual void VisitConstraint(Constraint constraint)
         {
-            VisitStatementAndChildren(constraint);
+            VisitNodeAndChildren(constraint);
         }
 
         public virtual void VisitCSharpTokenNode(CSharpTokenNode cSharpTokenNode)
         {
-            VisitStatementAndChildren(cSharpTokenNode);
+            VisitNodeAndChildren(cSharpTokenNode);
         }
 
         public virtual void VisitIdentifier(Identifier identifier)
         {
-            VisitStatementAndChildren(identifier);
+            VisitNodeAndChildren(identifier);
         }
 
         public virtual void VisitNullNode(AstNode nullNode)
         {
-            VisitStatementAndChildren(nullNode);
+            VisitNodeAndChildren(nullNode);
         }
 
         public virtual void VisitErrorNode(AstNode errorNode)
         {
-            VisitStatementAndChildren(errorNode);
+            VisitNodeAndChildren(errorNode);
         }
 
         public virtual void VisitPatternPlaceholder(AstNode placeholder, Pattern pattern)
         {
-            VisitStatementAndChildren(placeholder);
+            VisitNodeAndChildren(placeholder);
         }
     }
 }

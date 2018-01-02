@@ -11,8 +11,9 @@ namespace andrena.Usus.net.Core.Metrics.Methods
     {
         public static int Of(MethodDefinition method, CSharpDecompiler decompiler)
         {
-            if (false/*pdb.IsIterator(method.Body)*/) return -1; // ToDo mb
-            var locations = method.LocatedOperations(decompiler);
+	        if (!method.HasBody) return 0;
+			if (false/*pdb.IsIterator(method.Body)*/) return -1; // ToDo mb
+            var locations = method.LocatedOperations();
             return locations.GetAllStartLinesOfInterestingOpCodes().Distinct().Count();
         }
 

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
-using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using Mono.Cecil;
 
@@ -10,12 +9,13 @@ namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class NumberOfRealLines
     {
-        public static int Of(MethodDefinition method, CSharpDecompiler decompiler)
+        public static int Of(MethodDefinition method)
         {
-            if (decompiler != null)
+	        if (!method.HasBody) return 0;
+            if (method.DebugInformation?.HasSequencePoints ?? false)
             {
                 if (false/*pdb.IsIterator(method.Body)*/) return -1; // ToDo mb
-                var locations = method.LocatedOperations(decompiler);
+                var locations = method.LocatedOperations();
                 return locations.DifferenceBetweenStartAndEndlines();
             }
             return -1;
@@ -25,7 +25,7 @@ namespace andrena.Usus.net.Core.Metrics.Methods
         {
             if (!locations.GetAllValidLines(l => l.Line).Any()) return 0;
             var firstLine = locations.GetAllValidLines(l => l.Line).Min();
-            var lastLine = locations.GetAllValidLines(l => l.Line).Max();
+            var lastLine = locations.GetAllValidLines(l => l.Line).Where(l => l < 100000).Max();
             return System.Math.Max(0, lastLine - firstLine - 1);
         }
 

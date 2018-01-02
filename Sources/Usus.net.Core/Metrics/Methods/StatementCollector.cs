@@ -28,22 +28,23 @@ namespace andrena.Usus.net.Core.Metrics.Methods
         protected override void VisitAstNode(AstNode node)
         {
             if (node is EmptyStatement) return;
-            if (node is ReturnStatement && (node as ReturnStatement).Expression == null) return;
 
             RememberStatement(node);
         }
 
         private void RememberStatement(AstNode node)
         {
-            if (_requireLocations)
-                RememberStatementWithLocation(node);
-            else
-                RememberStatementWithoutLocation(node);
-        }
+			if (node.Role.ToString() == "Statement")
+				_statements.Add(node);
+			//if (_requireLocations)
+			//    RememberStatementWithLocation(node);
+			//else
+			//    RememberStatementWithoutLocation(node);
+		}
 
         private void RememberStatementWithLocation(AstNode node)
         {
-            if (HasLocation(node) || IsConditional(node) || IsDeclaration(node))
+            if (HasLocation(node) || IsConditional(node) || IsDeclaration(node) || IsReturn(node) || IsAssignment(node))
                 _statements.Add(node);
         }
 
@@ -53,25 +54,35 @@ namespace andrena.Usus.net.Core.Metrics.Methods
                 _statements.Add(node);
         }
 
-        private bool IsNotBlock(AstNode node)
+        private static bool IsNotBlock(AstNode node)
         {
             return !(node is BlockStatement);
         }
 
-        private bool HasLocation(AstNode node)
+        private static bool HasLocation(AstNode node)
         {
             return !node.StartLocation.IsEmpty;
         }
 
-        private bool IsConditional(AstNode node)
+        private static bool IsConditional(AstNode node)
         {
             return node is ConditionalExpression;
         }
 
-        private bool IsDeclaration(AstNode node)
+        private static bool IsDeclaration(AstNode node)
         {
             var declaration = node as VariableInitializer;
             return declaration?.Initializer != null;
         }
+
+	    private static bool IsReturn(AstNode node)
+	    {
+		    return (node as ReturnStatement)?.Expression != null;
+	    }
+
+	    private static bool IsAssignment(AstNode node)
+	    {
+		    return node is AssignmentExpression;
+	    }
     }
 }
