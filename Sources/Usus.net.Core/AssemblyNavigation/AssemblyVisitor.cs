@@ -2,7 +2,6 @@
 using andrena.Usus.net.Core.Reports;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
-using ICSharpCode.Decompiler.CSharp.OutputVisitor;
 using Mono.Cecil;
 
 namespace andrena.Usus.net.Core.AssemblyNavigation
@@ -15,7 +14,10 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
         {
             Report = new MetricsReport();
             var moduleDefinition = ModuleDefinition.ReadModule(assemblyPath);
-	        var decompilerSettings = new DecompilerSettings();
+	        var decompilerSettings = new DecompilerSettings
+	        {
+                ThrowOnAssemblyResolveErrors = false
+	        };
 	        var decompiler = new CSharpDecompiler(moduleDefinition, decompilerSettings);
             TryToAnalyze(moduleDefinition, decompiler);
         }
