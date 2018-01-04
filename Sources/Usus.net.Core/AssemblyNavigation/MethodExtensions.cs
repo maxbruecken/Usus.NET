@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using andrena.Usus.net.Core.Helper;
 using andrena.Usus.net.Core.Helper.Reflection;
-using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
@@ -69,27 +68,23 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
                    select rt.GetFullName();
         }
 
-        public static IEnumerable<OperationLocation> LocatedOperations(this MethodDefinition method, CSharpDecompiler decompiler)
+        public static IEnumerable<OperationLocation> LocatedOperations(this MethodDefinition method)
         {
             if (!method.HasBody) return Enumerable.Empty<OperationLocation>();
             return (from o in method.Body.Instructions
-                    from l in o.GetLocations(decompiler)
+                    from l in o.GetLocations(method)
                     select new OperationLocation { Operation = o, Location = l }).ToList();
         }
 
-        private static IEnumerable<TextLocation> GetLocations(this Instruction instruction, CSharpDecompiler decompiler)
+        private static IEnumerable<TextLocation> GetLocations(this Instruction instruction, MethodDefinition method)
         {
-            return new [] {TextLocation.Empty}; // ToDo mb
-        }
+            if (!method.DebugInformation.HasSequencePoints)
+                return new [] {TextLocation.Empty};
 
-        public static MethodBody Decompile(this MethodDefinition method)
-        {
-            return new MethodBody(method);
-        }
-
-        public static IEnumerable<Instruction> Statements(this MethodBody methodBody)
-        {
-            return methodBody.Instructions;
+            var sequencePoint = method.DebugInformation.GetSequencePoint(instruction);
+            if (sequencePoint == null)
+                return new[] { TextLocation.Empty };
+            return new[] { new TextLocation(sequencePoint.StartLine, sequencePoint.StartColumn) };
         }
     }
 }

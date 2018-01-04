@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using andrena.Usus.net.Core.AssemblyNavigation;
-using ICSharpCode.Decompiler.CSharp;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
@@ -9,7 +8,7 @@ namespace andrena.Usus.net.Core.Metrics.Methods
 {
     internal static class NumberOfLogicalLines
     {
-        public static int Of(MethodDefinition method, CSharpDecompiler decompiler)
+        public static int Of(MethodDefinition method)
         {
 	        if (!method.HasBody) return 0;
 			if (false/*pdb.IsIterator(method.Body)*/) return -1; // ToDo mb

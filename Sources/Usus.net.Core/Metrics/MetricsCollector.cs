@@ -42,7 +42,7 @@ namespace andrena.Usus.net.Core.Metrics
                 CyclomaticComplexity = CyclomaticComplexityOfAst.Of(method, decompiler),
                 NumberOfStatements = NumberOfStatements.Of(method, decompiler),
                 NumberOfRealLines = NumberOfRealLines.Of(method),
-                NumberOfLogicalLines = NumberOfLogicalLines.Of(method, decompiler),
+                NumberOfLogicalLines = NumberOfLogicalLines.Of(method),
                 TypeDependencies = TypeDependencies.Of(method, decompiler)
             };
         }
