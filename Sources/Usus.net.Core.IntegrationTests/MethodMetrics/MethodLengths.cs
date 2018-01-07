@@ -85,9 +85,9 @@ namespace Usus.net.Core.IntegrationTests.MethodMetrics
             Console.WriteLine();
         }
 
-        [ExpectNumberOfLogicalLines(3)]
+        [ExpectNumberOfLogicalLines(4)]
         [ExpectNumberOfRealLines(5)]
-        [ExpectNumberOfStatements(3)]
+        [ExpectNumberOfStatements(2)]
         public static void MethodWithStatementInIfBlock()
         {
             bool c1 = true;
@@ -97,17 +97,14 @@ namespace Usus.net.Core.IntegrationTests.MethodMetrics
             }
         }
 
-        [ExpectNumberOfStatements(3)]
+        [ExpectNumberOfStatements(2)]
         public static void MethodWithStatementInIf()
         {
             bool c1 = true;
             if (c1) Console.WriteLine();
         }
 
-        [ExpectNumberOfStatements(4)]
-        /* •———————————————————————————————————————————————•
-           | Compiler creates while/if/finally statements. |
-           •———————————————————————————————————————————————• */
+        [ExpectNumberOfStatements(2)]
         public static void MethodWithForeach()
         {
             foreach (var item in Enumerable.Repeat(0, 2))
@@ -116,7 +113,7 @@ namespace Usus.net.Core.IntegrationTests.MethodMetrics
 
         [ExpectNumberOfLogicalLines(-1)]
         [ExpectNumberOfRealLines(-1)]
-        [ExpectNumberOfStatements(4)]
+        [ExpectNumberOfStatements(3)]
         /* •——————————————————————————————————————————————————•
            | Iterators don't have operation locations in pdb. |
            •——————————————————————————————————————————————————• */

@@ -18,7 +18,7 @@ namespace andrena.Usus.net.Core.Metrics.Methods
 
         public void Calculate(MethodDefinition method)
         {
-            _decompiler.Decompile(method).AcceptVisitor(this);
+            _decompiler?.Decompile(method).AcceptVisitor(this);
         }
 
         public override void VisitIfElseStatement(IfElseStatement ifElseStatement)

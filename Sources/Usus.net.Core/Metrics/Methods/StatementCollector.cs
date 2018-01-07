@@ -8,7 +8,6 @@ namespace andrena.Usus.net.Core.Metrics.Methods
     internal class StatementCollector : AstVisitorBase
     {
         private readonly CSharpDecompiler _decompiler;
-        private readonly bool _requireLocations;
         private readonly List<AstNode> _statements;
 
         public int ResultCount => _statements.Count;
@@ -17,7 +16,6 @@ namespace andrena.Usus.net.Core.Metrics.Methods
         {
             _decompiler = decompiler;
             _statements = new List<AstNode>();
-            _requireLocations = decompiler != null;
         }
 
         public void Collect(MethodDefinition method)
@@ -34,55 +32,13 @@ namespace andrena.Usus.net.Core.Metrics.Methods
 
         private void RememberStatement(AstNode node)
         {
-			if (node.Role.ToString() == "Statement")
+			if (IsNotBlock(node) && (node.NodeType == NodeType.Statement || node.NodeType == NodeType.QueryClause))
 				_statements.Add(node);
-			//if (_requireLocations)
-			//    RememberStatementWithLocation(node);
-			//else
-			//    RememberStatementWithoutLocation(node);
 		}
-
-        private void RememberStatementWithLocation(AstNode node)
-        {
-            if (HasLocation(node) || IsConditional(node) || IsDeclaration(node) || IsReturn(node) || IsAssignment(node))
-                _statements.Add(node);
-        }
-
-        private void RememberStatementWithoutLocation(AstNode node)
-        {
-            if (IsNotBlock(node))
-                _statements.Add(node);
-        }
 
         private static bool IsNotBlock(AstNode node)
         {
             return !(node is BlockStatement);
         }
-
-        private static bool HasLocation(AstNode node)
-        {
-            return !node.StartLocation.IsEmpty;
-        }
-
-        private static bool IsConditional(AstNode node)
-        {
-            return node is ConditionalExpression;
-        }
-
-        private static bool IsDeclaration(AstNode node)
-        {
-            var declaration = node as VariableInitializer;
-            return declaration?.Initializer != null;
-        }
-
-	    private static bool IsReturn(AstNode node)
-	    {
-		    return (node as ReturnStatement)?.Expression != null;
-	    }
-
-	    private static bool IsAssignment(AstNode node)
-	    {
-		    return node is AssignmentExpression;
-	    }
     }
 }

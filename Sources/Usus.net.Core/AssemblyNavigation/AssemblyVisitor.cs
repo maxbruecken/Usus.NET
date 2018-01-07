@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using andrena.Usus.net.Core.Reports;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
@@ -13,12 +14,19 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
         public void Analyze(string assemblyPath)
         {
             Report = new MetricsReport();
-            var moduleDefinition = ModuleDefinition.ReadModule(assemblyPath);
-	        var decompilerSettings = new DecompilerSettings
-	        {
-                ThrowOnAssemblyResolveErrors = false
-	        };
-	        var decompiler = new CSharpDecompiler(moduleDefinition, decompilerSettings);
+            var assemblyResolver = new DefaultAssemblyResolver();
+            assemblyResolver.AddSearchDirectory(Path.GetDirectoryName(assemblyPath));
+            var moduleDefinition = ModuleDefinition.ReadModule(assemblyPath, new ReaderParameters {AssemblyResolver = assemblyResolver});
+            var decompilerSettings = new DecompilerSettings();
+            CSharpDecompiler decompiler = null;
+            try
+            {
+                decompiler = new CSharpDecompiler(moduleDefinition, decompilerSettings);
+            }
+            catch (Exception)
+            {
+
+            }
             TryToAnalyze(moduleDefinition, decompiler);
         }
 

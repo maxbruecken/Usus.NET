@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using andrena.Usus.net.Core.Helper;
 using andrena.Usus.net.Core.Helper.Reflection;
 using ICSharpCode.Decompiler.CSharp.Syntax;
@@ -85,6 +86,11 @@ namespace andrena.Usus.net.Core.AssemblyNavigation
             if (sequencePoint == null)
                 return new[] { TextLocation.Empty };
             return new[] { new TextLocation(sequencePoint.StartLine, sequencePoint.StartColumn) };
+        }
+
+        public static bool IsIterator(this MethodDefinition method)
+        {
+            return method.CustomAttributes.Any(a => a.AttributeType.FullName == typeof(IteratorStateMachineAttribute).FullName);
         }
     }
 }
