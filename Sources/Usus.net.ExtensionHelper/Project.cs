@@ -1,5 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
+using EnvDTE;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace andrena.Usus.net.ExtensionHelper
 {
@@ -31,6 +34,14 @@ namespace andrena.Usus.net.ExtensionHelper
             ProjectPath = project.GetPropertyString("FullPath");
             var outputPath = project.ConfigurationManager.ActiveConfiguration.Properties.Item("OutputPath").Value.ToString();
             var outputFileName = project.GetPropertyString("OutputFileName");
+            if (string.IsNullOrEmpty(outputFileName))
+            {
+                var outputGroups = project.ConfigurationManager.ActiveConfiguration.OutputGroups;
+                outputFileName = outputGroups
+                    .OfType<OutputGroup>()
+                    .SelectMany(g => ((Array) g.FileNames).OfType<string>())
+                    .FirstOrDefault(n => n.EndsWith(".dll") || n.EndsWith(".exe"));
+            }
             OutputAssembly = new FileInfo(Path.Combine(ProjectPath, outputPath, outputFileName));
         }
     }
