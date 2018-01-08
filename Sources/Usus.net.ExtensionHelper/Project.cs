@@ -32,6 +32,12 @@ namespace andrena.Usus.net.ExtensionHelper
             Name = project.Name;
             ProjectFile = project.FullName;
             ProjectPath = project.GetPropertyString("FullPath");
+            if (project.ConfigurationManager == null)
+            {
+                OutputAssembly = new FileInfo(Path.GetRandomFileName());
+                return;
+            }
+            var assemblyName = project.GetPropertyString("AssemblyName");
             var outputPath = project.ConfigurationManager.ActiveConfiguration.Properties.Item("OutputPath").Value.ToString();
             var outputFileName = project.GetPropertyString("OutputFileName");
             if (string.IsNullOrEmpty(outputFileName))
@@ -40,9 +46,11 @@ namespace andrena.Usus.net.ExtensionHelper
                 outputFileName = outputGroups
                     .OfType<OutputGroup>()
                     .SelectMany(g => ((Array) g.FileNames).OfType<string>())
-                    .FirstOrDefault(n => n.EndsWith(".dll") || n.EndsWith(".exe"));
+                    .FirstOrDefault(n => n == assemblyName + ".dll" || n == assemblyName + ".exe");
             }
-            OutputAssembly = new FileInfo(Path.Combine(ProjectPath, outputPath, outputFileName));
+            OutputAssembly = string.IsNullOrEmpty(outputFileName) 
+                ? new FileInfo(Path.GetRandomFileName()) 
+                : new FileInfo(Path.Combine(ProjectPath, outputPath, outputFileName));
         }
     }
 }
