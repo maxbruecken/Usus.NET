@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using andrena.Usus.net.Core.AssemblyNavigation;
 using andrena.Usus.net.Core.Helper;
-using andrena.Usus.net.Core.Helper.Reflection;
 using andrena.Usus.net.Core.Metrics.Methods;
 using andrena.Usus.net.Core.Metrics.Types;
 using andrena.Usus.net.Core.Reports;
@@ -19,7 +18,7 @@ namespace andrena.Usus.net.Core.Metrics
             {
                 Name = type.Name,
                 FullName = type.GetFullName(),
-                SourceLocation = SourceCodeLocating.OfType(type, decompiler),
+                SourceLocation = SourceCodeLocating.OfType(type),
                 Namespaces = type.Namespaces(),
                 CompilerGenerated = type.IsGeneratedCode(),
                 NumberOfFields = NumberOfFields.Of(type),
@@ -38,7 +37,7 @@ namespace andrena.Usus.net.Core.Metrics
                 CompilerGenerated = method.IsGeneratedCode(),
                 OnlyDeclaration = method.IsOnlyDeclaration(),
                 DefaultConstructor = method.IsDefaultCtor(),
-                SourceLocation = SourceCodeLocating.OfMethod(method, decompiler),
+                SourceLocation = SourceCodeLocating.OfMethod(method),
                 CyclomaticComplexity = CyclomaticComplexityOfAst.Of(method, decompiler),
                 NumberOfStatements = NumberOfStatements.Of(method, decompiler),
                 NumberOfRealLines = NumberOfRealLines.Of(method),
